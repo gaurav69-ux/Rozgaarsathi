@@ -7,6 +7,31 @@ const jobSeekerProfileSchema = new mongoose.Schema({
     required: true, 
     unique: true 
   },
+  name: {
+    type: String,
+    trim: true
+  },
+  email: {
+    type: String,
+    lowercase: true,
+    trim: true
+  },
+  address: {
+    type: String,
+    trim: true
+  },
+  age: {
+    type: Number,
+    min: 18,
+    max: 100
+  },
+  about: {
+    type: String,
+    trim: true
+  },
+  profilePhoto: { 
+    type: String 
+  },
   resume: { 
     type: String 
   },

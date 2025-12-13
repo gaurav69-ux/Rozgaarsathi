@@ -7,17 +7,17 @@ const Home = () => {
   const features = [
     {
       icon: Briefcase,
-      title: 'Thousands of Jobs',
-      description: 'Access a wide range of job opportunities from top companies worldwide'
+      title: 'Get of Jobs',
+      description: 'Access a wide range of job opportunities in your local area'
     },
     {
       icon: Users,
       title: 'Connect with Employers',
-      description: 'Build direct connections with hiring managers and recruiters'
+      description: 'Build direct connections with employers near you'
     },
     {
       icon: TrendingUp,
-      title: 'Career Growth',
+      title: 'Find Must Suitable Jobs',
       description: 'Find opportunities that match your skills and help you grow'
     }
   ];
@@ -38,11 +38,11 @@ const Home = () => {
             </div>
             
             <h1 className="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
-              Your Future Starts Here
+              Find The Local Job Near You Here
             </h1>
             
             <p className="text-xl md:text-2xl text-purple-300 mb-12 max-w-2xl mx-auto">
-              Discover opportunities that match your skills and ambitions. Connect with top employers and take the next step in your career journey.
+              Discover opportunities that match your skills and ambitions. Connect with employers which nearby you and take the next step in your career journey.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -67,7 +67,7 @@ const Home = () => {
         {/* Features Section */}
         <div className="py-20">
           <h2 className="text-4xl font-bold text-center mb-12 text-white">
-            Why Choose FutureJobs?
+            Why Choose RozgaarSathi?
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -93,7 +93,7 @@ const Home = () => {
               Ready to Start Your Journey?
             </h2>
             <p className="text-xl text-purple-300 mb-8">
-              Join thousands of job seekers and employers on FutureJobs today
+              Joins thousands of jobseekers and employers on Rozgaarsathi today..
             </p>
             <Link
               to="/register"
