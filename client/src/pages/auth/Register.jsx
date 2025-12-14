@@ -22,12 +22,8 @@ const Register = () => {
     const result = await register(formData);
     
     if (result.success) {
-      // Navigate based on role
-      if (result.user.role === 'employer') {
-        navigate('/employer/dashboard');
-      } else {
-        navigate('/jobseeker/dashboard');
-      }
+      // After successful registration, send user to login page
+      navigate('/login');
     }
     setLoading(false);
   };

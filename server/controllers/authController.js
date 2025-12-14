@@ -44,7 +44,11 @@ exports.register = async (req, res) => {
 
     // Create profile based on role
     if (role === 'jobseeker') {
-      await JobSeekerProfile.create({ userId: user._id });
+      await JobSeekerProfile.create({ 
+        userId: user._id,
+        name: name,
+        email: email
+      });
     } else if (role === 'employer') {
       await EmployerProfile.create({ 
         userId: user._id, 
@@ -53,16 +57,19 @@ exports.register = async (req, res) => {
     }
 
     // Generate token
-   const token = jwt.sign({
-        id: user._id,
-    }, process.env.JWT_SECRET ); // secret key
+    const token = generateToken(user._id, user.role);
 
-    res.cookie('token', token );
+    // Set cookie (optional, for browser)
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+    });
 
     res.status(201).json({
       success: true,
       message: 'User registered successfully',
-      // token,
+      token, // IMPORTANT: Send token in response
       user: {
         id: user._id,
         name: user.name,
@@ -103,10 +110,17 @@ exports.login = async (req, res) => {
     // Generate token
     const token = generateToken(user._id, user.role);
 
+    // Set cookie (optional, for browser)
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+    });
+
     res.json({
       success: true,
       message: 'Login successful',
-      // token,
+      token, // IMPORTANT: Send token in response
       user: {
         id: user._id,
         name: user.name,
@@ -149,6 +163,11 @@ exports.getProfile = async (req, res) => {
 // @route   POST /api/auth/logout
 // @access  Public
 exports.logout = async (req, res) => {
+  res.cookie('token', '', {
+    httpOnly: true,
+    expires: new Date(0)
+  });
+  
   res.json({ 
     success: true,
     message: 'Logout successful' 

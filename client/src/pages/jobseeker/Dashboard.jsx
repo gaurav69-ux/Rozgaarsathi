@@ -96,59 +96,6 @@ const JobSeekerDashboard = () => {
             </div>
           ))}
         </div>
-
-        {/* Search Bar */}
-        <div className="mb-12">
-          <div className="bg-slate-900/60 backdrop-blur-lg border border-purple-500/20 rounded-xl p-4 flex items-center space-x-4">
-            <Search className="w-6 h-6 text-purple-400" />
-            <input
-              type="text"
-              placeholder="Search jobs by title, skill, or company..."
-              className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-            />
-            <button 
-              onClick={handleSearch}
-              className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg font-semibold transition-all flex items-center space-x-2"
-            >
-              <Zap className="w-5 h-5" />
-              <span>Search</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Job Listings */}
-        <div>
-          <h2 className="text-3xl font-bold text-white mb-6 flex items-center">
-            <Briefcase className="w-8 h-8 mr-3 text-purple-400" />
-            Featured Jobs
-          </h2>
-          
-          {jobs.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-purple-300 text-lg">No jobs found. Try a different search.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {jobs.map((job) => (
-                <JobCard
-                  key={job._id}
-                  job={job}
-                  onSaveToggle={(id) => {
-                    if (savedJobs.includes(id)) {
-                      setSavedJobs(savedJobs.filter(j => j !== id));
-                    } else {
-                      setSavedJobs([...savedJobs, id]);
-                    }
-                  }}
-                  initialSaved={savedJobs.includes(job._id)}
-                />
-              ))}
-            </div>
-          )}
-        </div>
       </div>
     </>
   );
