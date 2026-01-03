@@ -1,5 +1,6 @@
 const EmployerProfile = require('../models/EmployerProfile');
 const Job = require('../models/Job');
+const Application = require('../models/Application');
 
 // @desc    Get employer profile
 // @route   GET /api/employer/profile
@@ -70,11 +71,27 @@ exports.getMyJobs = async (req, res) => {
   try {
     const jobs = await Job.find({ employerId: req.user.id })
       .sort({ postedDate: -1 });
-    
+
+    // Aggregate application counts for these jobs
+    const jobIds = jobs.map(j => j._id);
+    const counts = await Application.aggregate([
+      { $match: { jobId: { $in: jobIds } } },
+      { $group: { _id: '$jobId', count: { $sum: 1 } } }
+    ]);
+
+    const countsMap = {};
+    counts.forEach(c => { countsMap[c._id.toString()] = c.count; });
+
+    const jobsWithCounts = jobs.map(job => {
+      const jobObj = job.toObject();
+      jobObj.applicationCount = countsMap[job._id.toString()] || 0;
+      return jobObj;
+    });
+
     res.json({
       success: true,
-      count: jobs.length,
-      jobs
+      count: jobsWithCounts.length,
+      jobs: jobsWithCounts
     });
   } catch (error) {
     console.error('Get my jobs error:', error);

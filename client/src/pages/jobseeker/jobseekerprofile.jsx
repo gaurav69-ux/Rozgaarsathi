@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 import api from '../../utils/api';
 import { toast } from 'react-toastify';
+import { FileText, Download, Trash2 } from 'lucide-react';
 import Navbar from '../../components/common/Navbar';
 
 export default function JobSeekerProfile() {
@@ -15,11 +16,13 @@ export default function JobSeekerProfile() {
     age: '',
     about: '',
     profilePhoto: '',
+    resume: '',
   });
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [previewPhoto, setPreviewPhoto] = useState(null);
   const [photoFile, setPhotoFile] = useState(null);
+  const [resumeFile, setResumeFile] = useState(null);
 
   // Redirect to login if not authenticated (after auth loading is complete)
   useEffect(() => {
@@ -81,6 +84,20 @@ export default function JobSeekerProfile() {
     }
   };
 
+  const handleResumeChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Only allow PDF and DOC files
+      const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+      if (!validTypes.includes(file.type)) {
+        toast.error('Only PDF and Word documents are allowed');
+        return;
+      }
+      setResumeFile(file);
+      toast.success(`Resume selected: ${file.name}`);
+    }
+  };
+
   const handleSaveProfile = async () => {
     try {
       const formData = new FormData();
@@ -92,6 +109,10 @@ export default function JobSeekerProfile() {
 
       if (photoFile) {
         formData.append('profilePhoto', photoFile);
+      }
+
+      if (resumeFile) {
+        formData.append('resume', resumeFile);
       }
 
       console.log('Sending profile update...');
@@ -109,11 +130,13 @@ export default function JobSeekerProfile() {
         age: responseData.age || profile.age,
         about: responseData.about || profile.about,
         profilePhoto: responseData.profilePhoto || profile.profilePhoto,
+        resume: responseData.resume || profile.resume,
       };
 
       setProfile(updatedProfile);
       setPhotoFile(null);
       setPreviewPhoto(null);
+      setResumeFile(null);
       setIsEditing(false);
       toast.success('Profile updated successfully!');
     } catch (error) {
@@ -298,6 +321,60 @@ export default function JobSeekerProfile() {
                 </p>
               )}
             </div>
+
+            {/* Resume Section */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-300 mb-2">
+                Resume
+              </label>
+              {isEditing ? (
+                <div className="space-y-3">
+                  <label className="flex items-center justify-center w-full px-4 py-6 bg-slate-700 border-2 border-dashed border-gray-500 rounded-lg cursor-pointer hover:border-blue-500 transition-colors">
+                    <div className="flex flex-col items-center">
+                      <FileText className="w-8 h-8 text-gray-400 mb-2" />
+                      <span className="text-sm text-gray-300">
+                        {resumeFile ? resumeFile.name : 'Click to upload resume (PDF or DOC)'}
+                      </span>
+                    </div>
+                    <input
+                      type="file"
+                      accept=".pdf,.doc,.docx"
+                      onChange={handleResumeChange}
+                      className="hidden"
+                    />
+                  </label>
+                  {profile.resume && !resumeFile && (
+                    <div className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
+                      <span className="text-sm text-gray-300 flex items-center gap-2">
+                        <FileText className="w-5 h-5 text-blue-400" />
+                        Current resume uploaded
+                      </span>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="flex items-center gap-3">
+                  {profile.resume ? (
+                    <>
+                      <FileText className="w-6 h-6 text-blue-400" />
+                      <span className="text-white">Resume uploaded</span>
+                      <a
+                        href={profile.resume}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors"
+                      >
+                        <Download className="w-4 h-4" />
+                        Download
+                      </a>
+                    </>
+                  ) : (
+                    <p className="text-gray-400">No resume uploaded</p>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Action Buttons */}
@@ -315,6 +392,7 @@ export default function JobSeekerProfile() {
                   setIsEditing(false);
                   setPhotoFile(null);
                   setPreviewPhoto(null);
+                  setResumeFile(null);
                 }}
                 className="flex-1 px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-semibold"
               >

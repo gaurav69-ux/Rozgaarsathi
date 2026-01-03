@@ -9,6 +9,8 @@ router.post('/', protect, authorize('jobseeker'), upload.single('resume'), appli
 router.get('/my-applications', protect, authorize('jobseeker'), applicationController.getMyApplications);
 
 // Employer routes
+// Return all applications for the employer's jobs
+router.get('/job/all', protect, authorize('employer'), applicationController.getApplicationsForEmployer);
 router.get('/job/:jobId', protect, authorize('employer'), applicationController.getJobApplications);
 router.put('/:id/status', protect, authorize('employer'), applicationController.updateApplicationStatus);
 

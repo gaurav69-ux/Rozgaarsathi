@@ -47,25 +47,25 @@ const Home = () => {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                to="/register"
+                to="/login"
                 className="group px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg font-semibold transition-all text-lg flex items-center justify-center space-x-2"
               >
                 <span>Get Started</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               
-              <Link
+              {/* <Link
                 to="/login"
                 className="px-8 py-4 bg-slate-800/50 hover:bg-slate-800/70 text-white border border-purple-500/30 hover:border-purple-500/50 rounded-lg font-semibold transition-all text-lg"
               >
-                Sign In
-              </Link>
+                LogIn
+              </Link> */}
             </div>
           </div>
         </div>
 
         {/* Features Section */}
-        <div className="py-20">
+        {/* <div className="py-20">
           <h2 className="text-4xl font-bold text-center mb-12 text-white">
             Why Choose RozgaarSathi?
           </h2>
@@ -84,11 +84,12 @@ const Home = () => {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* CTA Section */}
         <div className="py-20 mb-20">
-          <div className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 backdrop-blur-lg border border-purple-500/30 rounded-2xl p-12 text-center">
+
+          <div className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 backdrop-blur-lg border border-purple-500/30 rounded-2xl p-8 text-center">
             <h2 className="text-4xl font-bold text-white mb-4">
               Ready to Start Your Journey?
             </h2>
@@ -102,6 +103,7 @@ const Home = () => {
               Create Free Account
             </Link>
           </div>
+          
         </div>
       </div>
     </>

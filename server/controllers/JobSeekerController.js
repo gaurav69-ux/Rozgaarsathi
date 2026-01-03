@@ -43,8 +43,13 @@ exports.updateProfileDetails = async (req, res) => {
     );
 
     // Handle profile photo upload
-    if (req.file) {
-      updateData.profilePhoto = req.file.path;
+    if (req.files?.profilePhoto) {
+      updateData.profilePhoto = req.files.profilePhoto[0].path;
+    }
+
+    // Handle resume upload
+    if (req.files?.resume) {
+      updateData.resume = req.files.resume[0].path;
     }
 
     // Find or create profile
@@ -116,6 +121,27 @@ exports.updateProfile = async (req, res) => {
     });
   } catch (error) {
     console.error('Update profile error:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+// @desc    Get job seeker profile by user id (for employer view)
+// @route   GET /api/jobseeker/:userId/profile
+// @access  Private (Employer only)
+exports.getProfileByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const profile = await JobSeekerProfile.findOne({ userId })
+      .populate('savedJobs')
+      .populate('userId', 'name email phone');
+
+    if (!profile) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+
+    res.json({ success: true, profile });
+  } catch (error) {
+    console.error('Get profile by userId error:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };

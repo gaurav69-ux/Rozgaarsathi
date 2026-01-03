@@ -29,16 +29,11 @@ exports.applyJob = async (req, res) => {
       return res.status(400).json({ message: 'You have already applied to this job' });
     }
 
-    // Check if resume file was uploaded
-    if (!req.file) {
-      return res.status(400).json({ message: 'Please upload your resume' });
-    }
-
-    // Create application
+    // Create application (resume is optional)
     const application = await Application.create({
       jobId,
       jobSeekerId: req.user.id,
-      resume: req.file.path,
+      resume: req.file ? req.file.path : null,
       coverLetter
     });
 
@@ -85,6 +80,12 @@ exports.getMyApplications = async (req, res) => {
 exports.getJobApplications = async (req, res) => {
   try {
     const { jobId } = req.params;
+
+    // validate jobId is a valid ObjectId
+    const mongoose = require('mongoose');
+    if (!mongoose.Types.ObjectId.isValid(jobId)) {
+      return res.status(400).json({ message: 'Invalid jobId' });
+    }
 
     // Verify job exists and belongs to employer
     const job = await Job.findById(jobId);
@@ -147,6 +148,32 @@ exports.updateApplicationStatus = async (req, res) => {
     });
   } catch (error) {
     console.error('Update application status error:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+// @desc    Get all applications for employer's jobs
+// @route   GET /api/applications/job/all
+// @access  Private (Employer only)
+exports.getApplicationsForEmployer = async (req, res) => {
+  try {
+    // Find jobs that belong to this employer
+    const jobs = await Job.find({ employerId: req.user.id }).select('_id title');
+    const jobIds = jobs.map(j => j._id);
+
+    // Fetch applications for these jobs
+    const applications = await Application.find({ jobId: { $in: jobIds } })
+      .populate('jobId', 'title')
+      .populate('jobSeekerId', 'name email')
+      .sort({ appliedDate: -1 });
+
+    res.json({
+      success: true,
+      count: applications.length,
+      applications
+    });
+  } catch (error) {
+    console.error('Get employer applications error:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };

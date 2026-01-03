@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { MapPin, Loader, AlertCircle, Search } from 'lucide-react';
 import api from '../../utils/api';
 import Background from '../../components/common/Background';
+import Navbar from '../../components/common/Navbar';
 import JobCard from '../../components/common/jobCard';
 import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
@@ -140,6 +141,7 @@ const NearbyJobs = () => {
   return (
     <>
       <Background />
+      <Navbar />
       <div className="min-h-screen pt-20 pb-12 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Header */}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FileText, Users, Briefcase, Plus } from 'lucide-react';
 import Background from '../../components/common/Background';
 import Navbar from '../../components/common/Navbar';
@@ -59,6 +60,7 @@ const EmployerDashboard = () => {
 
   const totalApplications = jobs.reduce((acc, job) => acc + (job.applicationCount || 0), 0);
   const activeJobs = jobs.filter(j => j.status === 'active').length;
+  const navigate = useNavigate();
 
   if (loading) {
     return (
@@ -100,7 +102,7 @@ const EmployerDashboard = () => {
             <div className="text-purple-300">Posted Jobs</div>
           </div>
           
-          <div className="bg-slate-900/60 backdrop-blur-lg border border-purple-500/20 rounded-xl p-6">
+          <div onClick={() => navigate('/employer/applications')} className="bg-slate-900/60 backdrop-blur-lg border border-purple-500/20 rounded-xl p-6 hover:cursor-pointer hover:scale-105 transition-transform">
             <div className="flex items-center justify-between mb-4">
               <Users className="w-8 h-8 text-blue-400" />
               <span className="text-3xl font-bold text-white">{totalApplications}</span>

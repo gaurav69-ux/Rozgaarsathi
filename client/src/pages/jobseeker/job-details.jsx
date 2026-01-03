@@ -89,21 +89,18 @@ export default function JobDetails() {
       return;
     }
 
-      if (hasApplied) {
+    if (hasApplied) {
         toast.info('You have already applied to this job');
         return;
       }
-
-    if (!resumeFile) {
-      toast.error('Please attach your resume');
-      return;
-    }
 
     setApplying(true);
     try {
       const formData = new FormData();
       formData.append('jobId', id);
-      formData.append('resume', resumeFile);
+      if (resumeFile) {
+        formData.append('resume', resumeFile);
+      }
 
       await api.post('/applications', formData);
       toast.success('Application submitted');
@@ -208,7 +205,10 @@ export default function JobDetails() {
                 </div>
               ) : (
                 <>
-                  <input type="file" accept="application/pdf,application/msword" onChange={(e) => setResumeFile(e.target.files?.[0] || null)} className="mb-3 md:mb-0" />
+                  <label className="flex items-center space-x-2 mb-3 md:mb-0 text-gray-300">
+                    <input type="file" accept="application/pdf,application/msword" onChange={(e) => setResumeFile(e.target.files?.[0] || null)} className="text-sm" />
+                    <span className="text-sm">(Optional)</span>
+                  </label>
                   <button onClick={handleApply} disabled={applying} className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg">
                     {applying ? 'Applying...' : 'Apply Now'}
                   </button>
