@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 import api from '../../utils/api';
 import Navbar from '../../components/common/Navbar';
 import Background from '../../components/common/Background';
-import { toast } from 'react-toastify';
 
 export default function EmployerProfile() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { user, token, loading: authLoading } = useAuth();
   const [profile, setProfile] = useState({
     companyName: '',
@@ -25,10 +26,9 @@ export default function EmployerProfile() {
   // Redirect to login if not authenticated (after auth loading is complete)
   useEffect(() => {
     if (!authLoading && !token) {
-      toast.error('Please login first');
       navigate('/login');
     }
-  }, [authLoading, token, navigate]);
+  }, [authLoading, token, navigate, t]);
 
   // Fetch employer profile
   useEffect(() => {
@@ -84,11 +84,9 @@ export default function EmployerProfile() {
         setIsEditing(false);
         setLogoFile(null);
         setPreviewLogo(null);
-        toast.success('Profile updated successfully');
       }
     } catch (err) {
       console.error('Save employer profile error:', err);
-      toast.error(err.response?.data?.message || 'Failed to update profile');
     }
   };
 
@@ -98,7 +96,7 @@ export default function EmployerProfile() {
         <Background />
         <Navbar />
         <div className="min-h-screen flex items-center justify-center">
-          <p className="text-purple-300">Loading profile...</p>
+          <p className="text-purple-300">{t('messages.loading')}</p>
         </div>
       </>
     );
@@ -118,57 +116,57 @@ export default function EmployerProfile() {
               />
             </div>
             <div className="flex-1">
-              <h2 className="text-2xl font-bold text-white">{profile.companyName || 'Company Name'}</h2>
+              <h2 className="text-2xl font-bold text-white">{profile.companyName || t('profile.companyName')}</h2>
               <p className="text-sm text-purple-300">{profile.industry || ''}</p>
               {!isEditing && (
-                <button onClick={() => setIsEditing(true)} className="mt-3 px-4 py-2 bg-blue-500 text-white rounded-lg">Edit Profile</button>
+                <button onClick={() => setIsEditing(true)} className="mt-3 px-4 py-2 bg-blue-500 text-white rounded-lg">{t('profile.editProfile')}</button>
               )}
             </div>
           </div>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-2">Company Name</label>
+              <label className="block text-sm font-semibold text-gray-300 mb-2">{t('profile.companyName')}</label>
               {isEditing ? (
                 <input name="companyName" value={profile.companyName || ''} onChange={handleInputChange} className="w-full px-4 py-2 bg-slate-700 border border-gray-600 rounded-lg text-white" />
               ) : (
-                <p className="text-white">{profile.companyName || 'Not provided'}</p>
+                <p className="text-white">{profile.companyName || t('jobDetails.notSpecified')}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-2">Website</label>
+              <label className="block text-sm font-semibold text-gray-300 mb-2">{t('profile.website')}</label>
               {isEditing ? (
                 <input name="website" value={profile.website || ''} onChange={handleInputChange} className="w-full px-4 py-2 bg-slate-700 border border-gray-600 rounded-lg text-white" />
               ) : (
-                <p className="text-white">{profile.website || 'Not provided'}</p>
+                <p className="text-white">{profile.website || t('jobDetails.notSpecified')}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-2">Location</label>
+              <label className="block text-sm font-semibold text-gray-300 mb-2">{t('profile.location')}</label>
               {isEditing ? (
                 <input name="location" value={profile.location || ''} onChange={handleInputChange} className="w-full px-4 py-2 bg-slate-700 border border-gray-600 rounded-lg text-white" />
               ) : (
-                <p className="text-white">{profile.location || 'Not provided'}</p>
+                <p className="text-white">{profile.location || t('jobDetails.notSpecified')}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-2">Industry</label>
+              <label className="block text-sm font-semibold text-gray-300 mb-2">{t('profile.industry')}</label>
               {isEditing ? (
                 <input name="industry" value={profile.industry || ''} onChange={handleInputChange} className="w-full px-4 py-2 bg-slate-700 border border-gray-600 rounded-lg text-white" />
               ) : (
-                <p className="text-white">{profile.industry || 'Not provided'}</p>
+                <p className="text-white">{profile.industry || t('jobDetails.notSpecified')}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-2">Description</label>
+              <label className="block text-sm font-semibold text-gray-300 mb-2">{t('profile.bio')}</label>
               {isEditing ? (
                 <textarea name="description" value={profile.description || ''} onChange={handleInputChange} rows={5} className="w-full px-4 py-2 bg-slate-700 border border-gray-600 rounded-lg text-white" />
               ) : (
-                <p className="text-white whitespace-pre-line">{profile.description || 'No description provided'}</p>
+                <p className="text-white whitespace-pre-line">{profile.description || t('jobDetails.notSpecified')}</p>
               )}
             </div>
 
@@ -176,11 +174,11 @@ export default function EmployerProfile() {
               <div className="flex items-center space-x-4 mt-6">
                 <label className="px-4 py-2 bg-slate-700 rounded-lg cursor-pointer">
                   <input type="file" accept="image/*" onChange={handleLogoChange} className="hidden" />
-                  Upload Logo
+                  {t('profile.uploadLogo')}
                 </label>
 
-                <button onClick={handleSaveProfile} className="px-6 py-2 bg-green-500 text-white rounded-lg">Save Changes</button>
-                <button onClick={() => { setIsEditing(false); setLogoFile(null); setPreviewLogo(null); }} className="px-6 py-2 bg-gray-500 text-white rounded-lg">Cancel</button>
+                <button onClick={handleSaveProfile} className="px-6 py-2 bg-green-500 text-white rounded-lg">{t('profile.updateProfile')}</button>
+                <button onClick={() => { setIsEditing(false); setLogoFile(null); setPreviewLogo(null); }} className="px-6 py-2 bg-gray-500 text-white rounded-lg">{t('jobDetails.back')}</button>
               </div>
             )}
           </div>

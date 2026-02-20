@@ -1,12 +1,14 @@
 import { Navigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/authContext';
 
 // Protects routes that require authentication
 export const PrivateRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
+  const { t } = useTranslation();
 
   if (loading) {
-    return <div>Loading...</div>; // You can replace this with a spinner component
+    return <div>{t('messages.loading')}</div>; // You can replace this with a spinner component
   }
 
   return isAuthenticated ? children : <Navigate to="/login" replace />;
@@ -15,9 +17,10 @@ export const PrivateRoute = ({ children }) => {
 // Protects auth routes - prevents logged-in users from accessing login/register/home
 export const PublicRoute = ({ children }) => {
   const { isAuthenticated, user, loading } = useAuth();
+  const { t } = useTranslation();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>{t('messages.loading')}</div>;
   }
 
   if (isAuthenticated) {
@@ -37,9 +40,10 @@ export const PublicRoute = ({ children }) => {
 // Protects jobseeker routes - only jobseekers can access
 export const JobSeekerRoute = ({ children }) => {
   const { isAuthenticated, user, loading } = useAuth();
+  const { t } = useTranslation();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>{t('messages.loading')}</div>;
   }
 
   if (!isAuthenticated) {
@@ -52,9 +56,10 @@ export const JobSeekerRoute = ({ children }) => {
 // Protects employer routes - only employers can access
 export const EmployerRoute = ({ children }) => {
   const { isAuthenticated, user, loading } = useAuth();
+  const { t } = useTranslation();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>{t('messages.loading')}</div>;
   }
 
   if (!isAuthenticated) {

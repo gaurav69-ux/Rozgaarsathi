@@ -28,7 +28,7 @@ const Home = () => {
     <>
       <Background />
       <Navbar />
-      
+
       <div className="container mx-auto px-6">
         {/* Hero Section */}
         <div className="min-h-[80vh] flex items-center justify-center text-center">
@@ -38,15 +38,15 @@ const Home = () => {
                 <Rocket className="w-16 h-16 text-purple-400" />
               </div>
             </div>
-            
+
             <h1 className="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
               {t('home.title')}
             </h1>
-            
+
             <p className="text-xl md:text-2xl text-purple-300 mb-12 max-w-2xl mx-auto">
               {t('home.subtitle')}
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/login"
@@ -55,7 +55,7 @@ const Home = () => {
                 <span>{t('home.getStarted')}</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              
+
               {/* <Link
                 to="/login"
                 className="px-8 py-4 bg-slate-800/50 hover:bg-slate-800/70 text-white border border-purple-500/30 hover:border-purple-500/50 rounded-lg font-semibold transition-all text-lg"
@@ -90,22 +90,20 @@ const Home = () => {
 
         {/* CTA Section */}
         <div className="py-20 mb-20">
-
           <div className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 backdrop-blur-lg border border-purple-500/30 rounded-2xl p-8 text-center">
             <h2 className="text-4xl font-bold text-white mb-4">
-              Ready to Start Your Journey?
+              {t('home.ctaTitle')}
             </h2>
             <p className="text-xl text-purple-300 mb-8">
-              Joins thousands of jobseekers and employers on Rozgaarsathi today..
+              {t('home.ctaSubtitle')}
             </p>
             <Link
               to="/register"
               className="inline-block px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg font-semibold transition-all text-lg"
             >
-              Create Free Account
+              {t('home.createAccount')}
             </Link>
           </div>
-          
         </div>
       </div>
     </>

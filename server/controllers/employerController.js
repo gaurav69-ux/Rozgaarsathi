@@ -8,7 +8,7 @@ const Application = require('../models/Application');
 exports.getProfile = async (req, res) => {
   try {
     const profile = await EmployerProfile.findOne({ userId: req.user.id });
-    
+
     if (!profile) {
       return res.status(404).json({ message: 'Profile not found' });
     }
@@ -29,7 +29,7 @@ exports.getProfile = async (req, res) => {
 exports.updateProfile = async (req, res) => {
   try {
     const { companyName, website, description, location, industry } = req.body;
-    
+
     const updateData = {
       companyName,
       website,
@@ -40,7 +40,7 @@ exports.updateProfile = async (req, res) => {
 
     // Handle company logo upload
     if (req.file) {
-      updateData.companyLogo = req.file.path;
+      updateData.companyLogo = req.file.location;
     }
 
     const profile = await EmployerProfile.findOneAndUpdate(
@@ -53,10 +53,10 @@ exports.updateProfile = async (req, res) => {
       return res.status(404).json({ message: 'Profile not found' });
     }
 
-    res.json({ 
+    res.json({
       success: true,
-      message: 'Profile updated successfully', 
-      profile 
+      message: 'Profile updated successfully',
+      profile
     });
   } catch (error) {
     console.error('Update employer profile error:', error);

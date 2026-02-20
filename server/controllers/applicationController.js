@@ -33,17 +33,17 @@ exports.applyJob = async (req, res) => {
     const application = await Application.create({
       jobId,
       jobSeekerId: req.user.id,
-      resume: req.file ? req.file.path : null,
+      resume: req.file ? req.file.location : null,
       coverLetter
     });
 
     // Populate job and user details
     await application.populate('jobId', 'title company');
 
-    res.status(201).json({ 
+    res.status(201).json({
       success: true,
-      message: 'Application submitted successfully', 
-      application 
+      message: 'Application submitted successfully',
+      application
     });
   } catch (error) {
     console.error('Apply job error:', error);
@@ -141,10 +141,10 @@ exports.updateApplicationStatus = async (req, res) => {
     application.status = status;
     await application.save();
 
-    res.json({ 
+    res.json({
       success: true,
-      message: 'Application status updated successfully', 
-      application 
+      message: 'Application status updated successfully',
+      application
     });
   } catch (error) {
     console.error('Update application status error:', error);

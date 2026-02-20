@@ -33,7 +33,7 @@ const Navbar = () => {
               RozgaarSathi
             </h1>
           </Link>
-          
+
           <div className="hidden md:flex items-center space-x-6">
             {isAuthenticated ? (
               <>
@@ -51,7 +51,7 @@ const Navbar = () => {
                         className="flex items-center space-x-2 px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-all border border-purple-500/30"
                       >
                         <Briefcase className="w-4 h-4" />
-                        <span>Dashboard</span>
+                        <span>{t('navbar.dashboard')}</span>
                       </Link>
                     ) : (location.pathname === '/employer/dashboard' || location.pathname.startsWith('/employer/dashboard')) ? (
                       <Link
@@ -59,7 +59,7 @@ const Navbar = () => {
                         className="flex items-center space-x-2 px-4 py-2 bg-slate-800/40 hover:bg-slate-800/50 text-purple-300 rounded-lg transition-all border border-purple-500/20"
                       >
                         <User className="w-4 h-4" />
-                        <span>Profile</span>
+                        <span>{t('navbar.profile')}</span>
                       </Link>
                     ) : (
                       <>
@@ -68,14 +68,14 @@ const Navbar = () => {
                           className="flex items-center space-x-2 px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-all border border-purple-500/30"
                         >
                           <Briefcase className="w-4 h-4" />
-                          <span>Dashboard</span>
+                          <span>{t('navbar.dashboard')}</span>
                         </Link>
                         <Link
                           to="/employer/profile"
                           className="flex items-center space-x-2 px-4 py-2 bg-slate-800/40 hover:bg-slate-800/50 text-purple-300 rounded-lg transition-all border border-purple-500/20"
                         >
                           <User className="w-4 h-4" />
-                          <span>Profile</span>
+                          <span>{t('navbar.profile')}</span>
                         </Link>
                       </>
                     )}
@@ -87,7 +87,7 @@ const Navbar = () => {
                       className="flex items-center space-x-2 px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-all border border-purple-500/30"
                     >
                       <Briefcase className="w-4 h-4" />
-                      <span>Dashboard</span>
+                      <span>{t('navbar.dashboard')}</span>
                     </Link>
                   ) : (
                     <Link
@@ -95,7 +95,7 @@ const Navbar = () => {
                       className="flex items-center space-x-2 px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-all border border-purple-500/30"
                     >
                       <User className="w-4 h-4" />
-                      <span>Profile</span>
+                      <span>{t('navbar.profile')}</span>
                     </Link>
                   )
                 )}
@@ -113,13 +113,13 @@ const Navbar = () => {
                   to="/login"
                   className="px-4 py-2 text-purple-300 hover:text-purple-200 transition-colors"
                 >
-                  Login
+                  {t('navbar.login')}
                 </Link>
                 <Link
                   to="/register"
                   className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg transition-all"
                 >
-                  Register
+                  {t('navbar.register')}
                 </Link>
               </>
             )}
@@ -200,29 +200,29 @@ const Navbar = () => {
                 {user?.role === 'employer' ? (
                   <>
                     {(location.pathname === '/employer/profile' || location.pathname.startsWith('/employer/profile')) ? (
-                      <Link to="/employer/dashboard" className="block px-3 py-2 rounded-lg text-purple-300 hover:bg-purple-500/10">Dashboard</Link>
+                      <Link to="/employer/dashboard" className="block px-3 py-2 rounded-lg text-purple-300 hover:bg-purple-500/10">{t('navbar.dashboard')}</Link>
                     ) : (location.pathname === '/employer/dashboard' || location.pathname.startsWith('/employer/dashboard')) ? (
-                      <Link to="/employer/profile" className="block px-3 py-2 rounded-lg text-purple-300 hover:bg-purple-500/10">Profile</Link>
+                      <Link to="/employer/profile" className="block px-3 py-2 rounded-lg text-purple-300 hover:bg-purple-500/10">{t('navbar.profile')}</Link>
                     ) : (
                       <>
-                        <Link to="/employer/dashboard" className="block px-3 py-2 rounded-lg text-purple-300 hover:bg-purple-500/10">Dashboard</Link>
-                        <Link to="/employer/profile" className="block px-3 py-2 rounded-lg text-purple-300 hover:bg-purple-500/10">Profile</Link>
+                        <Link to="/employer/dashboard" className="block px-3 py-2 rounded-lg text-purple-300 hover:bg-purple-500/10">{t('navbar.dashboard')}</Link>
+                        <Link to="/employer/profile" className="block px-3 py-2 rounded-lg text-purple-300 hover:bg-purple-500/10">{t('navbar.profile')}</Link>
                       </>
                     )}
                   </>
                 ) : (
                   (location.pathname === '/jobseeker/profile' || location.pathname.startsWith('/jobseeker/profile')) ? (
-                    <Link to="/jobseeker/dashboard" className="block px-3 py-2 rounded-lg text-purple-300 hover:bg-purple-500/10">Dashboard</Link>
+                    <Link to="/jobseeker/dashboard" className="block px-3 py-2 rounded-lg text-purple-300 hover:bg-purple-500/10">{t('navbar.dashboard')}</Link>
                   ) : (
-                    <Link to="/jobseeker/profile" className="block px-3 py-2 rounded-lg text-purple-300 hover:bg-purple-500/10">Profile</Link>
+                    <Link to="/jobseeker/profile" className="block px-3 py-2 rounded-lg text-purple-300 hover:bg-purple-500/10">{t('navbar.profile')}</Link>
                   )
                 )}
                 <button onClick={handleLogout} className="w-full text-left px-3 py-2 rounded-lg text-red-300 hover:bg-red-500/10">{t('navbar.logout')}</button>
               </>
             ) : (
               <>
-                <Link to="/login" className="block px-3 py-2 rounded-lg text-purple-300 hover:bg-purple-500/10">Login</Link>
-                <Link to="/register" className="block px-3 py-2 rounded-lg text-white bg-gradient-to-r from-purple-500 to-pink-500">Register</Link>
+                <Link to="/login" className="block px-3 py-2 rounded-lg text-purple-300 hover:bg-purple-500/10">{t('navbar.login')}</Link>
+                <Link to="/register" className="block px-3 py-2 rounded-lg text-white bg-gradient-to-r from-purple-500 to-pink-500">{t('navbar.register')}</Link>
               </>
             )}
           </div>

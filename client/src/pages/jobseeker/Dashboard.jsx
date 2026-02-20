@@ -4,9 +4,8 @@ import { Briefcase, Search, Heart, Send, TrendingUp, Zap } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import Background from '../../components/common/Background';
 import Navbar from '../../components/common/Navbar';
-import JobCard from '../../components/common/JobCard';
+import JobCard from '../../components/common/jobCard';
 import api from '../../utils/api';
-import { toast } from 'react-toastify';
 
 const JobSeekerDashboard = () => {
   const navigate = useNavigate();
@@ -35,7 +34,6 @@ const JobSeekerDashboard = () => {
       setSavedJobs(profileRes.data.profile.savedJobs || []);
     } catch (error) {
       console.error('Failed to load data:', error);
-      toast.error('Failed to load data');
     } finally {
       setLoading(false);
     }
@@ -51,7 +49,7 @@ const JobSeekerDashboard = () => {
       const res = await api.get(`/jobs?title=${searchQuery}`);
       setJobs(res.data.jobs || []);
     } catch (error) {
-      toast.error('Search failed');
+      console.error('Search failed:', error);
     }
   };
 

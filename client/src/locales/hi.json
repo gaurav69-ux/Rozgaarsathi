@@ -4,14 +4,19 @@
     "dashboard": "डैशबोर्ड",
     "profile": "प्रोफाइल",
     "logout": "लॉगआउट",
-    "language": "भाषा"
+    "language": "भाषा",
+    "nearbyJobs": "पास की नौकरियां",
+    "postJob": "नौकरी पोस्ट करें"
   },
   "home": {
     "title": "अपने पास की नौकरी यहां खोजें",
     "subtitle": "ऐसे अवसर खोजें जो आपके कौशल और महत्वाकांक्षाओं से मेल खाएं। अपने पास के नियोक्ताओं के साथ जुड़ें और अपने करियर में अगला कदम बढ़ाएं।",
     "getStarted": "शुरुआत करें",
     "loginBtn": "लॉगइन",
-    "registerBtn": "पंजीकरण करें"
+    "registerBtn": "पंजीकरण करें",
+    "ctaTitle": "अपनी यात्रा शुरू करने के लिए तैयार हैं?",
+    "ctaSubtitle": "आज ही रोज़गार साथी पर हज़ारों नौकरी चाहने वालों और नियोक्ताओं से जुड़ें।",
+    "createAccount": "निःशुल्क खाता बनाएं"
   },
   "login": {
     "title": "फिर से स्वागत है",
@@ -38,9 +43,12 @@
     "passwordMinimum": "न्यूनतम 6 वर्ण"
   },
   "dashboard": {
-    "jobSeekerTitle": "अपनी स्वप्न की नौकरी खोजें",
-    "jobSeekerSubtitle": "शीर्ष कंपनियों से हजारों अवसरों का अन्वेषण करें",
-    "employerTitle": "अपनी नौकरी की पोस्टिंग प्रबंधित करें",
+    "jobSeekerTitle": "अपने पास की नौकरियां खोजें",
+    "jobSeekerSubtitle": "अपने शहर से हजारों अवसरों का अन्वेषण करें",
+    "employerTitle": "नियोक्ता डैशबोर्ड",
+    "postedJobs": "पोस्ट की गई नौकरियां",
+    "totalApplications": "कुल आवेदन",
+    "activeJobs": "सक्रिय नौकरियां",
     "availableJobs": "उपलब्ध नौकरियां",
     "jobApplied": "आवेदन की गई नौकरियां",
     "savedJobs": "सहेजी गई नौकरियां",
@@ -48,11 +56,94 @@
     "browse": "नौकरियां ब्राउज़ करें",
     "saved": "सहेजी गई नौकरियां",
     "applications": "मेरे आवेदन",
-    "noJobs": "कोई नौकरी नहीं मिली"
+    "noJobs": "कोई नौकरी नहीं मिली",
+    "postNewJob": "नई नौकरी पोस्ट करें",
+    "yourJobPostings": "आपकी नौकरी की पोस्टिंग",
+    "noJobsPosted": "अभी तक कोई नौकरी पोस्ट नहीं की गई है",
+    "postFirstJob": "अपनी पहली नौकरी पोस्ट करें",
+    "posted": "पोस्ट किया गया",
+    "deleteJob": "नौकरी हटाएं",
+    "deleteConfirmation": "क्या आप वाकई इस नौकरी की सूची को हटाना चाहते हैं?",
+    "confirmDelete": "हटाएं",
+    "jobDeleted": "नौकरी सफलतापूर्वक हटा दी गई"
+  },
+  "jobDetails": {
+    "description": "नौकरी का विवरण",
+    "requirements": "आवश्यकताएं",
+    "salary": "वेतन",
+    "category": "श्रेणी",
+    "apply": "आवेदन करें",
+    "applyNow": "अभी आवेदन करें",
+    "applying": "आवेदन किया जा रहा है...",
+    "alreadyApplied": "पहले ही आवेदन कर दिया गया है",
+    "back": "पीछे",
+    "save": "सहेजें",
+    "saving": "सहेजा जा रहा है...",
+    "optional": "(वैकल्पिक)",
+    "notSpecified": "निर्दिष्ट नहीं है",
+    "loadingJob": "नौकरी लोड हो रही है...",
+    "jobNotFound": "नौकरी नहीं मिली"
+  },
+  "jobCard": {
+    "viewDetails": "विवरण देखें",
+    "company": "कंपनी",
+    "general": "सामान्य"
+  },
+  "nearbyJobs": {
+    "title": "पास की नौकरियां",
+    "subtitle": "अपने क्षेत्र में रोमांचक नौकरी के अवसर खोजें",
+    "location": "स्थान",
+    "allLocations": "सभी स्थान",
+    "yourProfileLocation": "आपकी प्रोफाइल का स्थान",
+    "jobTitle": "नौकरी का शीर्षक",
+    "searchPlaceholder": "नौकरी के शीर्षक खोजें...",
+    "loadingJobs": "नौकरियां लोड हो रही हैं...",
+    "noJobsFound": "कोई नौकरी नहीं मिली",
+    "tryAdjusting": "अधिक नौकरियां खोजने के लिए अपने फ़िल्टर को समायोजित करने का प्रयास करें",
+    "noJobsAvailable": "इस समय कोई नौकरी उपलब्ध नहीं है",
+    "found": "मिले",
+    "nearby": "पास में"
+  },
+  "profile": {
+    "seekerTitle": "नौकरी चाहने वाले की प्रोफाइल",
+    "employerTitle": "नियोक्ता प्रोफाइल",
+    "personalInfo": "व्यक्तिगत जानकारी",
+    "skills": "कौशल",
+    "experience": "अनुभव",
+    "education": "शिक्षा",
+    "location": "स्थान",
+    "bio": "बायो",
+    "contact": "संपर्क",
+    "companyName": "कंपनी का नाम",
+    "website": "वेबसाइट",
+    "updateProfile": "प्रोफाइल अपडेट करें",
+    "updating": "अपडेट किया जा रहा है...",
+    "editProfile": "प्रोफाइल संपादित करें"
+  },
+  "applications": {
+    "title": "मेरे आवेदन",
+    "noApplications": "कोई आवेदन नहीं मिला",
+    "noApplicationsYet": "अभी तक कोई आवेदन नहीं आया है।",
+    "status": "स्थिति",
+    "appliedOn": "आवेदन की तिथि",
+    "applied": "आवेदन किया",
+    "viewJob": "नौकरी देखें",
+    "employerTitle": "नौकरी के आवेदन",
+    "filterByJob": "नौकरी के अनुसार फ़िल्टर करें:",
+    "allJobs": "सभी नौकरियां",
+    "applicant": "आवेदक",
+    "viewResume": "रिज्यूमे देखें",
+    "downloadResume": "रिज्यूमे डाउनलोड करें"
+  },
+  "common": {
+    "close": "बंद करें"
   },
   "messages": {
     "loading": "लोड हो रहा है...",
     "error": "त्रुटि",
-    "success": "सफलता"
+    "success": "सफलता",
+    "pleaseLogin": "कृपया लॉगइन करें",
+    "onlyJobSeekers": "केवल नौकरी चाहने वाले ही यह कार्य कर सकते हैं",
+    "onlyEmployers": "केवल नियोक्ता ही यह कार्य कर सकते हैं"
   }
 }

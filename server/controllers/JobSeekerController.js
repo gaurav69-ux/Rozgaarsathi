@@ -7,7 +7,7 @@ exports.getProfile = async (req, res) => {
   try {
     const profile = await JobSeekerProfile.findOne({ userId: req.user.id })
       .populate('savedJobs');
-    
+
     if (!profile) {
       return res.status(404).json({ message: 'Profile not found' });
     }
@@ -28,7 +28,7 @@ exports.getProfile = async (req, res) => {
 exports.updateProfileDetails = async (req, res) => {
   try {
     const { name, email, address, age, about } = req.body;
-    
+
     const updateData = {
       name: name || undefined,
       email: email || undefined,
@@ -38,18 +38,18 @@ exports.updateProfileDetails = async (req, res) => {
     };
 
     // Remove undefined values
-    Object.keys(updateData).forEach(key => 
+    Object.keys(updateData).forEach(key =>
       updateData[key] === undefined && delete updateData[key]
     );
 
     // Handle profile photo upload
     if (req.files?.profilePhoto) {
-      updateData.profilePhoto = req.files.profilePhoto[0].path;
+      updateData.profilePhoto = req.files.profilePhoto[0].location;
     }
 
     // Handle resume upload
     if (req.files?.resume) {
-      updateData.resume = req.files.resume[0].path;
+      updateData.resume = req.files.resume[0].location;
     }
 
     // Find or create profile
@@ -85,9 +85,9 @@ exports.updateProfileDetails = async (req, res) => {
 exports.updateProfile = async (req, res) => {
   try {
     const { skills, experience, education } = req.body;
-    
+
     const updateData = {};
-    
+
     // Handle JSON string fields
     if (skills) {
       updateData.skills = typeof skills === 'string' ? JSON.parse(skills) : skills;
@@ -101,7 +101,7 @@ exports.updateProfile = async (req, res) => {
 
     // Handle resume file upload
     if (req.file) {
-      updateData.resume = req.file.path;
+      updateData.resume = req.file.location;
     }
 
     const profile = await JobSeekerProfile.findOneAndUpdate(
@@ -114,10 +114,10 @@ exports.updateProfile = async (req, res) => {
       return res.status(404).json({ message: 'Profile not found' });
     }
 
-    res.json({ 
+    res.json({
       success: true,
-      message: 'Profile updated successfully', 
-      profile 
+      message: 'Profile updated successfully',
+      profile
     });
   } catch (error) {
     console.error('Update profile error:', error);

@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Loader, AlertCircle, Search } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import api from '../../utils/api';
 import Background from '../../components/common/Background';
 import Navbar from '../../components/common/Navbar';
 import JobCard from '../../components/common/jobCard';
-import { useAuth } from '../../context/AuthContext';
-import { toast } from 'react-toastify';
+import { useAuth } from '../../context/authContext';
 
 const NearbyJobs = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,17 +29,15 @@ const NearbyJobs = () => {
     }
 
     if (!isAuthenticated) {
-      toast.error('Please login to view nearby jobs');
       navigate('/login');
       return;
     }
 
     if (user?.role !== 'jobseeker') {
-      toast.error('This page is only for job seekers');
       navigate('/');
       return;
     }
-  }, [authLoading, isAuthenticated, user, navigate]);
+  }, [authLoading, isAuthenticated, user, navigate, t]);
 
   // Fetch user profile to get location
   useEffect(() => {
@@ -147,10 +146,10 @@ const NearbyJobs = () => {
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-              Nearby Jobs
+              {t('nearbyJobs.title')}
             </h1>
             <p className="text-gray-400">
-              Find exciting job opportunities in your area
+              {t('nearbyJobs.subtitle')}
             </p>
           </div>
 
@@ -161,14 +160,14 @@ const NearbyJobs = () => {
               <div>
                 <label className="block text-sm font-medium text-purple-300 mb-2">
                   <MapPin className="inline w-4 h-4 mr-2" />
-                  Location
+                  {t('nearbyJobs.location')}
                 </label>
                 <select
                   value={selectedLocation}
                   onChange={handleLocationChange}
                   className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white focus:outline-none focus:border-purple-500 transition-all"
                 >
-                  <option value="">All Locations</option>
+                  <option value="">{t('nearbyJobs.allLocations')}</option>
                   {Array.from(new Set(jobs.map(job => job.location).filter(Boolean))).map(
                     location => (
                       <option key={location} value={location}>
@@ -179,7 +178,7 @@ const NearbyJobs = () => {
                 </select>
                 {userLocation && selectedLocation === userLocation && (
                   <p className="text-xs text-purple-300 mt-1">
-                    📍 Your profile location
+                    📍 {t('nearbyJobs.yourProfileLocation')}
                   </p>
                 )}
               </div>
@@ -188,11 +187,11 @@ const NearbyJobs = () => {
               <div>
                 <label className="block text-sm font-medium text-purple-300 mb-2">
                   <Search className="inline w-4 h-4 mr-2" />
-                  Job Title
+                  {t('nearbyJobs.jobTitle')}
                 </label>
                 <input
                   type="text"
-                  placeholder="Search job titles..."
+                  placeholder={t('nearbyJobs.searchPlaceholder')}
                   value={searchTitle}
                   onChange={(e) => setSearchTitle(e.target.value)}
                   className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
@@ -206,7 +205,7 @@ const NearbyJobs = () => {
             <div className="flex justify-center items-center py-20">
               <div className="text-center">
                 <Loader className="w-12 h-12 text-purple-400 animate-spin mx-auto mb-4" />
-                <p className="text-gray-400">Loading jobs...</p>
+                <p className="text-gray-400">{t('nearbyJobs.loadingJobs')}</p>
               </div>
             </div>
           )}
@@ -224,12 +223,12 @@ const NearbyJobs = () => {
             <div className="text-center py-20">
               <MapPin className="w-16 h-16 text-gray-500 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-gray-400 mb-2">
-                No Jobs Found
+                {t('nearbyJobs.noJobsFound')}
               </h3>
               <p className="text-gray-500">
                 {selectedLocation || searchTitle
-                  ? 'Try adjusting your filters to find more jobs'
-                  : 'No jobs available at the moment'}
+                  ? t('nearbyJobs.tryAdjusting')
+                  : t('nearbyJobs.noJobsAvailable')}
               </p>
             </div>
           )}
@@ -238,7 +237,7 @@ const NearbyJobs = () => {
           {!loading && !error && filteredJobs.length > 0 && (
             <>
               <div className="mb-6 text-gray-400">
-                Found <span className="font-semibold text-purple-400">{filteredJobs.length}</span> job{filteredJobs.length !== 1 ? 's' : ''} nearby
+                {t('nearbyJobs.found')} <span className="font-semibold text-purple-400">{filteredJobs.length}</span> {t('nearbyJobs.nearby')}
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredJobs.map(job => (

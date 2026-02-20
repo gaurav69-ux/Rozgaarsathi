@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 import api from '../../utils/api';
-import { toast } from 'react-toastify';
 import { FileText, Download, Trash2 } from 'lucide-react';
 import Navbar from '../../components/common/Navbar';
 
 export default function JobSeekerProfile() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { user, token, loading: authLoading } = useAuth();
   const [profile, setProfile] = useState({
     name: '',
@@ -27,10 +28,9 @@ export default function JobSeekerProfile() {
   // Redirect to login if not authenticated (after auth loading is complete)
   useEffect(() => {
     if (!authLoading && !token) {
-      toast.error('Please login first');
       navigate('/login');
     }
-  }, [authLoading, token, navigate]);
+  }, [authLoading, token, navigate, t]);
 
   // Fetch profile data on mount
   useEffect(() => {
@@ -90,11 +90,9 @@ export default function JobSeekerProfile() {
       // Only allow PDF and DOC files
       const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
       if (!validTypes.includes(file.type)) {
-        toast.error('Only PDF and Word documents are allowed');
         return;
       }
       setResumeFile(file);
-      toast.success(`Resume selected: ${file.name}`);
     }
   };
 
@@ -116,7 +114,7 @@ export default function JobSeekerProfile() {
       }
 
       console.log('Sending profile update...');
-      
+
       const response = await api.post('/jobseeker/profile', formData);
 
       console.log('Profile update response:', response.data);
@@ -138,11 +136,8 @@ export default function JobSeekerProfile() {
       setPreviewPhoto(null);
       setResumeFile(null);
       setIsEditing(false);
-      toast.success('Profile updated successfully!');
     } catch (error) {
       console.error('Save error:', error.response?.data || error.message);
-      const message = error.response?.data?.message || error.message || 'Failed to update profile';
-      toast.error(message);
     }
   };
 
@@ -151,7 +146,7 @@ export default function JobSeekerProfile() {
       <div className="min-h-screen bg-slate-900">
         <Navbar />
         <div className="flex justify-center items-center h-96">
-          <p className="text-white text-lg">Loading profile...</p>
+          <p className="text-white text-lg">{t('messages.loading')}</p>
         </div>
       </div>
     );
@@ -216,7 +211,7 @@ export default function JobSeekerProfile() {
                 onClick={() => setIsEditing(true)}
                 className="mb-6 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
               >
-                Edit Profile
+                {t('profile.editProfile')}
               </button>
             )}
           </div>
@@ -226,7 +221,7 @@ export default function JobSeekerProfile() {
             {/* Name */}
             <div>
               <label className="block text-sm font-semibold text-gray-300 mb-2">
-                Name
+                {t('register.fullName')}
               </label>
               {isEditing ? (
                 <input
@@ -235,17 +230,17 @@ export default function JobSeekerProfile() {
                   value={profile.name}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 bg-slate-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                  placeholder="Enter your name"
+                  placeholder={t('register.fullName')}
                 />
               ) : (
-                <p className="text-white text-lg">{profile.name || 'Not provided'}</p>
+                <p className="text-white text-lg">{profile.name || t('jobDetails.notSpecified')}</p>
               )}
             </div>
 
             {/* Email */}
             <div>
               <label className="block text-sm font-semibold text-gray-300 mb-2">
-                Email
+                {t('register.email')}
               </label>
               {isEditing ? (
                 <input
@@ -254,17 +249,17 @@ export default function JobSeekerProfile() {
                   value={profile.email}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 bg-slate-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                  placeholder="Enter your email"
+                  placeholder={t('register.email')}
                 />
               ) : (
-                <p className="text-white text-lg">{profile.email || 'Not provided'}</p>
+                <p className="text-white text-lg">{profile.email || t('jobDetails.notSpecified')}</p>
               )}
             </div>
 
             {/* Address */}
             <div>
               <label className="block text-sm font-semibold text-gray-300 mb-2">
-                Address
+                {t('profile.location')}
               </label>
               {isEditing ? (
                 <input
@@ -273,10 +268,10 @@ export default function JobSeekerProfile() {
                   value={profile.address}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 bg-slate-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                  placeholder="Enter your address"
+                  placeholder={t('profile.location')}
                 />
               ) : (
-                <p className="text-white text-lg">{profile.address || 'Not provided'}</p>
+                <p className="text-white text-lg">{profile.address || t('jobDetails.notSpecified')}</p>
               )}
             </div>
 
@@ -297,14 +292,14 @@ export default function JobSeekerProfile() {
                   max="100"
                 />
               ) : (
-                <p className="text-white text-lg">{profile.age || 'Not provided'}</p>
+                <p className="text-white text-lg">{profile.age || t('jobDetails.notSpecified')}</p>
               )}
             </div>
 
             {/* About Section */}
             <div>
               <label className="block text-sm font-semibold text-gray-300 mb-2">
-                About
+                {t('profile.bio')}
               </label>
               {isEditing ? (
                 <textarea
@@ -317,7 +312,7 @@ export default function JobSeekerProfile() {
                 />
               ) : (
                 <p className="text-white text-base leading-relaxed">
-                  {profile.about || 'No description provided'}
+                  {profile.about || t('jobDetails.notSpecified')}
                 </p>
               )}
             </div>
@@ -384,9 +379,9 @@ export default function JobSeekerProfile() {
                 onClick={handleSaveProfile}
                 className="flex-1 px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-semibold"
               >
-                Save Changes
+                {t('profile.updateProfile')}
               </button>
-              
+
               <button
                 onClick={() => {
                   setIsEditing(false);
@@ -396,7 +391,7 @@ export default function JobSeekerProfile() {
                 }}
                 className="flex-1 px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-semibold"
               >
-                Cancel
+                {t('jobDetails.back')}
               </button>
             </div>
           )}

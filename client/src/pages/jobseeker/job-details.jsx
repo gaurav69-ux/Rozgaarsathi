@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 import Background from '../../components/common/Background';
 import Navbar from '../../components/common/Navbar';
 import api from '../../utils/api';
 import { useAuth } from '../../context/authContext';
-import { toast } from 'react-toastify';
-import { MapPin, DollarSign, Clock, Building } from 'lucide-react';
+import { MapPin, IndianRupee, Clock, Building } from 'lucide-react';
 
 export default function JobDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -26,7 +27,6 @@ export default function JobDetails() {
         if (res.data.success) setJob(res.data.job);
       } catch (err) {
         console.error('Failed to load job:', err);
-        toast.error('Failed to load job details');
       } finally {
         setLoading(false);
       }
@@ -56,22 +56,19 @@ export default function JobDetails() {
 
   const handleSave = async () => {
     if (!isAuthenticated) {
-      toast.error('Please login to save jobs');
       navigate('/login');
       return;
     }
 
     if (user?.role !== 'jobseeker') {
-      toast.error('Only job seekers can save jobs');
       return;
     }
 
     setSaving(true);
     try {
       await api.post(`/jobs/${id}/save`);
-      toast.success('Job saved/unsaved');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to save job');
+      console.error('Failed to save job:', err);
     } finally {
       setSaving(false);
     }
@@ -79,20 +76,17 @@ export default function JobDetails() {
 
   const handleApply = async () => {
     if (!isAuthenticated) {
-      toast.error('Please login to apply');
       navigate('/login');
       return;
     }
 
     if (user?.role !== 'jobseeker') {
-      toast.error('Only job seekers can apply');
       return;
     }
 
     if (hasApplied) {
-        toast.info('You have already applied to this job');
-        return;
-      }
+      return;
+    }
 
     setApplying(true);
     try {
@@ -103,11 +97,9 @@ export default function JobDetails() {
       }
 
       await api.post('/applications', formData);
-      toast.success('Application submitted');
       setHasApplied(true);
     } catch (err) {
       console.error('Apply error:', err);
-      toast.error(err.response?.data?.message || 'Failed to apply');
     } finally {
       setApplying(false);
     }
@@ -119,7 +111,7 @@ export default function JobDetails() {
         <Background />
         <Navbar />
         <div className="min-h-screen flex items-center justify-center">
-          <div className="text-purple-300">Loading job...</div>
+          <div className="text-purple-300">{t('jobDetails.loadingJob')}</div>
         </div>
       </>
     );
@@ -131,7 +123,7 @@ export default function JobDetails() {
         <Background />
         <Navbar />
         <div className="min-h-screen flex items-center justify-center">
-          <div className="text-red-300">Job not found</div>
+          <div className="text-red-300">{t('jobDetails.jobNotFound')}</div>
         </div>
       </>
     );
@@ -146,7 +138,7 @@ export default function JobDetails() {
           <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-6">
             <div>
               <h1 className="text-3xl font-bold text-white mb-2">{job.title}</h1>
-              <div className="text-purple-300 mb-1">{job.employerId?.name || 'Company'}</div>
+              <div className="text-purple-300 mb-1">{job.employerId?.name || t('jobCard.company')}</div>
               <div className="text-gray-300 text-sm flex items-center space-x-4">
                 {job.location && (
                   <span className="flex items-center"><MapPin className="w-4 h-4 mr-2 text-purple-400" />{job.location}</span>
@@ -157,62 +149,82 @@ export default function JobDetails() {
 
             <div className="mt-4 md:mt-0 flex items-center space-x-3">
               <button onClick={handleSave} disabled={saving} className="px-4 py-2 bg-purple-500/20 text-purple-300 rounded-lg hover:bg-purple-500/30">
-                {saving ? 'Saving...' : 'Save'}
+                {saving ? t('jobDetails.saving') : t('jobDetails.save')}
               </button>
             </div>
           </div>
 
           <div className="mb-6">
-            <h3 className="text-lg font-semibold text-white mb-2">Job Description</h3>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('jobDetails.description')}</h3>
             <p className="text-gray-300 whitespace-pre-line">{job.description}</p>
           </div>
 
           {job.requirements && (
             <div className="mb-6">
-              <h3 className="text-lg font-semibold text-white mb-2">Requirements</h3>
+              <h3 className="text-lg font-semibold text-white mb-2">{t('jobDetails.requirements')}</h3>
               <p className="text-gray-300 whitespace-pre-line">{job.requirements}</p>
             </div>
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div className="bg-slate-800 rounded-lg p-4">
-              <h4 className="text-sm text-purple-300 mb-2">Salary</h4>
-              <div className="text-white">
-                {job.salary?.min && job.salary?.max ? `${job.salary.currency} ${job.salary.min.toLocaleString()} - ${job.salary.max.toLocaleString()}` : 'Not specified'}
-              </div>
+              <h4 className="text-sm text-purple-300 mb-2">{t('jobDetails.salary')}</h4>
+              {job.salary?.min && job.salary?.max ? (
+                <span className="flex items-center">
+                  <IndianRupee className="w-4 h-4 mr-2 text-purple-400" />
+                  {job.salary.min.toLocaleString()} - {job.salary.max.toLocaleString()}
+                </span>
+              ) : t('jobDetails.notSpecified')}
             </div>
 
             <div className="bg-slate-800 rounded-lg p-4">
-              <h4 className="text-sm text-purple-300 mb-2">Category</h4>
-              <div className="text-white">{job.category || 'General'}</div>
+              <h4 className="text-sm text-purple-300 mb-2">{t('jobDetails.category')}</h4>
+              <div className="text-white">{job.category || t('jobCard.general')}</div>
             </div>
           </div>
 
           <div className="mt-6">
-            <h4 className="text-sm text-purple-300 mb-2">Apply</h4>
-            <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
-              {/* Back button to nearby jobs */}
+            <h4 className="text-sm text-purple-300 mb-5">{t('jobDetails.apply')}</h4>
+            <div className="flex flex-col md:flex-row md:items-center gap-4">
+              {/* Apply / Already Applied - Order 1 on mobile, 3 on md+ */}
+              <div className="order-1 md:order-3">
+                {hasApplied ? (
+                  <button
+                    disabled
+                    className="px-6 py-3 bg-gray-600 text-gray-200 rounded-lg cursor-not-allowed w-full md:w-auto"
+                  >
+                    {t('jobDetails.alreadyApplied')}
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleApply}
+                    disabled={applying}
+                    className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg w-full md:w-auto"
+                  >
+                    {applying ? t('jobDetails.applying') : t('jobDetails.applyNow')}
+                  </button>
+                )}
+              </div>
+
+              {/* Back button - Order 2 on mobile, 1 on md+ */}
               <button
                 onClick={() => navigate('/jobseeker/nearby-jobs')}
-                className="px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 mr-0 md:mr-3 mb-3 md:mb-0"
+                className="px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 order-2 md:order-1 w-full md:w-auto"
               >
-                Back
+                {t('jobDetails.back')}
               </button>
 
-              {hasApplied ? (
-                <div className="inline-flex items-center space-x-3">
-                  <button disabled className="px-6 py-3 bg-gray-600 text-gray-200 rounded-lg cursor-not-allowed">Already Applied</button>
-                </div>
-              ) : (
-                <>
-                  <label className="flex items-center space-x-2 mb-3 md:mb-0 text-gray-300">
-                    <input type="file" accept="application/pdf,application/msword" onChange={(e) => setResumeFile(e.target.files?.[0] || null)} className="text-sm" />
-                    <span className="text-sm">(Optional)</span>
-                  </label>
-                  <button onClick={handleApply} disabled={applying} className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg">
-                    {applying ? 'Applying...' : 'Apply Now'}
-                  </button>
-                </>
+              {/* Resume Upload - Order 3 on mobile, 2 on md+ */}
+              {!hasApplied && (
+                <label className="flex items-center bg-slate-800 rounded-lg p-2 text-gray-300 order-3 md:order-2 w-full md:w-auto">
+                  <input
+                    type="file"
+                    accept="application/pdf,application/msword"
+                    onChange={(e) => setResumeFile(e.target.files?.[0] || null)}
+                    className="text-sm "
+                  />
+                  <span className="text-sm">{t('jobDetails.optional')}</span>
+                </label>
               )}
             </div>
           </div>
