@@ -1,13 +1,22 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Rocket, LogOut, Briefcase, User, Menu, X } from 'lucide-react';
+import { Rocket, LogOut, Briefcase, User, Menu, X, Globe } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth();
+  const { i18n, t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+
+  const changeLanguage = (lang) => {
+    i18n.changeLanguage(lang);
+    localStorage.setItem('language', lang);
+    setLangOpen(false);
+  };
 
   const handleLogout = () => {
     logout();
@@ -28,7 +37,7 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-6">
             {isAuthenticated ? (
               <>
-                <span className="text-purple-300">Welcome, {user?.name}</span>
+                <span className="text-purple-300">{t('navbar.welcome')}, {user?.name}</span>
                 <span className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm border border-purple-500/30">
                   {user?.role}
                 </span>
@@ -95,7 +104,7 @@ const Navbar = () => {
                   className="flex items-center space-x-2 px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-300 rounded-lg transition-all border border-red-500/30"
                 >
                   <LogOut className="w-4 h-4" />
-                  <span>Logout</span>
+                  <span>{t('navbar.logout')}</span>
                 </button>
               </>
             ) : (
@@ -114,10 +123,62 @@ const Navbar = () => {
                 </Link>
               </>
             )}
+
+            {/* Language Switcher */}
+            <div className="relative">
+              <button
+                onClick={() => setLangOpen(!langOpen)}
+                className="flex items-center space-x-2 px-4 py-2 bg-slate-800/40 hover:bg-slate-800/50 text-purple-300 rounded-lg transition-all border border-purple-500/20"
+              >
+                <Globe className="w-4 h-4" />
+                <span className="font-semibold">{i18n.language.toUpperCase()}</span>
+              </button>
+              {langOpen && (
+                <div className="absolute right-0 mt-2 bg-slate-800 border border-purple-500/30 rounded-lg shadow-lg overflow-hidden z-10 min-w-32">
+                  <button
+                    onClick={() => changeLanguage('en')}
+                    className={`w-full text-left px-4 py-2 transition-colors ${i18n.language === 'en' ? 'bg-purple-500/20 text-purple-300' : 'text-gray-300 hover:bg-slate-700'}`}
+                  >
+                    English
+                  </button>
+                  <button
+                    onClick={() => changeLanguage('hi')}
+                    className={`w-full text-left px-4 py-2 transition-colors ${i18n.language === 'hi' ? 'bg-purple-500/20 text-purple-300' : 'text-gray-300 hover:bg-slate-700'}`}
+                  >
+                    हिंदी
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
+          <div className="md:hidden flex items-center space-x-2">
+            {/* Mobile Language Switcher */}
+            <div className="relative">
+              <button
+                onClick={() => setLangOpen(!langOpen)}
+                className="p-2 text-purple-300 hover:text-purple-200"
+              >
+                <Globe className="w-5 h-5" />
+              </button>
+              {langOpen && (
+                <div className="absolute right-0 mt-2 bg-slate-800 border border-purple-500/30 rounded-lg shadow-lg overflow-hidden z-10">
+                  <button
+                    onClick={() => changeLanguage('en')}
+                    className={`block w-full text-left px-4 py-2 text-sm transition-colors ${i18n.language === 'en' ? 'bg-purple-500/20 text-purple-300' : 'text-gray-300'}`}
+                  >
+                    English
+                  </button>
+                  <button
+                    onClick={() => changeLanguage('hi')}
+                    className={`block w-full text-left px-4 py-2 text-sm transition-colors ${i18n.language === 'hi' ? 'bg-purple-500/20 text-purple-300' : 'text-gray-300'}`}
+                  >
+                    हिंदी
+                  </button>
+                </div>
+              )}
+            </div>
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle menu"
@@ -134,7 +195,7 @@ const Navbar = () => {
           <div className="px-6 py-4 space-y-3">
             {isAuthenticated ? (
               <>
-                <div className="text-purple-300">Welcome, {user?.name}</div>
+                <div className="text-purple-300">{t('navbar.welcome')}, {user?.name}</div>
                 <div className="text-sm text-purple-300">{user?.role}</div>
                 {user?.role === 'employer' ? (
                   <>
@@ -156,7 +217,7 @@ const Navbar = () => {
                     <Link to="/jobseeker/profile" className="block px-3 py-2 rounded-lg text-purple-300 hover:bg-purple-500/10">Profile</Link>
                   )
                 )}
-                <button onClick={handleLogout} className="w-full text-left px-3 py-2 rounded-lg text-red-300 hover:bg-red-500/10">Logout</button>
+                <button onClick={handleLogout} className="w-full text-left px-3 py-2 rounded-lg text-red-300 hover:bg-red-500/10">{t('navbar.logout')}</button>
               </>
             ) : (
               <>

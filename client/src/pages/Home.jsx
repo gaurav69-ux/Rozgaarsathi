@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { Rocket, Briefcase, Users, TrendingUp, ArrowRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Background from '../components/common/Background';
 import Navbar from '../components/common/Navbar';
 
 const Home = () => {
+  const { t } = useTranslation();
   const features = [
     {
       icon: Briefcase,
@@ -38,11 +40,11 @@ const Home = () => {
             </div>
             
             <h1 className="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
-              Find The Local Job Near You Here
+              {t('home.title')}
             </h1>
             
             <p className="text-xl md:text-2xl text-purple-300 mb-12 max-w-2xl mx-auto">
-              Discover opportunities that match your skills and ambitions. Connect with employers which nearby you and take the next step in your career journey.
+              {t('home.subtitle')}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -50,7 +52,7 @@ const Home = () => {
                 to="/login"
                 className="group px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg font-semibold transition-all text-lg flex items-center justify-center space-x-2"
               >
-                <span>Get Started</span>
+                <span>{t('home.getStarted')}</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               

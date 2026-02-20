@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FileText, Users, Briefcase, Plus } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Background from '../../components/common/Background';
 import Navbar from '../../components/common/Navbar';
 import api from '../../utils/api';
@@ -10,6 +11,7 @@ const EmployerDashboard = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showCreateJob, setShowCreateJob] = useState(false);
+  const { t } = useTranslation();
   const [jobForm, setJobForm] = useState({
     title: '',
     description: '',

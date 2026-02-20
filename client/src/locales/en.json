@@ -1,0 +1,58 @@
+{
+  "navbar": {
+    "welcome": "Welcome",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "logout": "Logout",
+    "language": "Language"
+  },
+  "home": {
+    "title": "Find The Local Job Near You Here",
+    "subtitle": "Discover opportunities that match your skills and ambitions. Connect with employers nearby and take the next step in your career journey.",
+    "getStarted": "Get Started",
+    "loginBtn": "Login",
+    "registerBtn": "Register"
+  },
+  "login": {
+    "title": "Welcome Back",
+    "email": "Email",
+    "password": "Password",
+    "login": "Login",
+    "loggingIn": "Logging in...",
+    "noAccount": "Don't have an account?",
+    "register": "Register"
+  },
+  "register": {
+    "title": "Create Account",
+    "fullName": "Full Name",
+    "email": "Email",
+    "password": "Password",
+    "phone": "Phone Number",
+    "role": "I am a",
+    "jobseeker": "Job Seeker",
+    "employer": "Employer",
+    "register": "Register",
+    "registering": "Creating Account...",
+    "alreadyAccount": "Already have an account?",
+    "login": "Login",
+    "passwordMinimum": "Minimum 6 characters"
+  },
+  "dashboard": {
+    "jobSeekerTitle": "Find Your Dream Job",
+    "jobSeekerSubtitle": "Explore thousands of opportunities from top companies",
+    "employerTitle": "Manage Your Job Postings",
+    "availableJobs": "Available Jobs",
+    "jobApplied": "Job Applied",
+    "savedJobs": "Saved Jobs",
+    "profileViews": "Profile Views",
+    "browse": "Browse Jobs",
+    "saved": "Saved Jobs",
+    "applications": "My Applications",
+    "noJobs": "No jobs found"
+  },
+  "messages": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  }
+}

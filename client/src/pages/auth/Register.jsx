@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 import Background from '../../components/common/Background';
 
 const Register = () => {
@@ -13,6 +14,7 @@ const Register = () => {
   });
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -34,13 +36,13 @@ const Register = () => {
       <div className="min-h-screen flex items-center justify-center px-4 py-8">
         <div className="bg-slate-900/90 backdrop-blur-xl p-8 rounded-2xl border border-purple-500/30 max-w-md w-full shadow-2xl">
           <h2 className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            Create Account
+            {t('register.title')}
           </h2>
           
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-purple-300 mb-2">
-                Full Name
+                {t('register.fullName')}
               </label>
               <input
                 type="text"
@@ -54,7 +56,7 @@ const Register = () => {
             
             <div>
               <label className="block text-sm font-medium text-purple-300 mb-2">
-                Email
+                {t('register.email')}
               </label>
               <input
                 type="email"
@@ -68,11 +70,11 @@ const Register = () => {
             
             <div>
               <label className="block text-sm font-medium text-purple-300 mb-2">
-                Password
+                {t('register.password')}
               </label>
               <input
                 type="password"
-                placeholder="Minimum 6 characters"
+                placeholder={t('register.passwordMinimum')}
                 className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
                 value={formData.password}
                 onChange={(e) => setFormData({...formData, password: e.target.value})}
@@ -83,7 +85,7 @@ const Register = () => {
             
             <div>
               <label className="block text-sm font-medium text-purple-300 mb-2">
-                Phone
+                {t('register.phone')}
               </label>
               <input
                 type="tel"
@@ -96,15 +98,15 @@ const Register = () => {
             
             <div>
               <label className="block text-sm font-medium text-purple-300 mb-2">
-                I am a
+                {t('register.role')}
               </label>
               <select
                 className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white focus:outline-none focus:border-purple-500 transition-all"
                 value={formData.role}
                 onChange={(e) => setFormData({...formData, role: e.target.value})}
               >
-                <option value="jobseeker">Job Seeker</option>
-                <option value="employer">Employer</option>
+                <option value="jobseeker">{t('register.jobseeker')}</option>
+                <option value="employer">{t('register.employer')}</option>
               </select>
             </div>
             
@@ -113,13 +115,14 @@ const Register = () => {
               disabled={loading}
               className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Creating Account...' : 'Register'}
+              {loading ? t('register.registering') : t('register.register')}
             </button>
           </form>
           
           <div className="mt-6 text-center">
+            <span className="text-purple-300">{t('register.alreadyAccount')} </span>
             <Link to="/login" className="text-purple-400 hover:text-purple-300 transition-colors">
-              Already have an account? Login
+              {t('register.login')}
             </Link>
           </div>
         </div>
