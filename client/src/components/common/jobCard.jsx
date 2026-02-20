@@ -3,7 +3,7 @@ import { MapPin, DollarSign, Clock, Building, Heart, ChevronRight } from 'lucide
 import { useNavigate } from 'react-router-dom';
 import api from '../../utils/api';
 import { toast } from 'react-toastify';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/authContext';
 
 const JobCard = ({ job, onSaveToggle, initialSaved = false }) => {
   const [isSaved, setIsSaved] = useState(initialSaved);
