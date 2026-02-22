@@ -134,9 +134,9 @@ export default function JobDetails() {
       <Background />
       <Navbar />
       <div className="container mx-auto px-4 py-10 max-w-4xl">
-        <div className="bg-slate-900/70 backdrop-blur-lg border border-purple-500/20 rounded-xl p-8">
+        <div className="bg-slate-900/70 backdrop-blur-lg border border-purple-500/20 rounded-xl p-8 relative">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-6">
-            <div>
+            <div className="pr-16 md:pr-0">
               <h1 className="text-3xl font-bold text-white mb-2">{job.title}</h1>
               <div className="text-purple-300 mb-1">{job.employerId?.name || t('jobCard.company')}</div>
               <div className="text-gray-300 text-sm flex items-center space-x-4">
@@ -147,7 +147,7 @@ export default function JobDetails() {
               </div>
             </div>
 
-            <div className="mt-4 md:mt-0 flex items-center space-x-3">
+            <div className="absolute top-8 right-8 md:static md:mt-0 flex items-center space-x-3">
               <button onClick={handleSave} disabled={saving} className="px-4 py-2 bg-purple-500/20 text-purple-300 rounded-lg hover:bg-purple-500/30">
                 {saving ? t('jobDetails.saving') : t('jobDetails.save')}
               </button>
@@ -216,14 +216,14 @@ export default function JobDetails() {
 
               {/* Resume Upload - Order 3 on mobile, 2 on md+ */}
               {!hasApplied && (
-                <label className="flex items-center bg-slate-800 rounded-lg p-2 text-gray-300 order-3 md:order-2 w-full md:w-auto">
+                <label className="flex flex-col sm:flex-row sm:items-center bg-slate-800 rounded-lg p-3 text-gray-300 order-3 md:order-2 w-full md:w-auto gap-2 overflow-hidden border border-purple-500/10">
                   <input
                     type="file"
                     accept="application/pdf,application/msword"
                     onChange={(e) => setResumeFile(e.target.files?.[0] || null)}
-                    className="text-sm "
+                    className="text-xs w-full cursor-pointer file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-purple-500/20 file:text-purple-300 hover:file:bg-purple-500/30 transition-all"
                   />
-                  <span className="text-sm">{t('jobDetails.optional')}</span>
+                  <span className="text-[10px] text-gray-400 italic shrink-0">({t('jobDetails.optional')})</span>
                 </label>
               )}
             </div>

@@ -16,7 +16,7 @@ const generateToken = (id, role) => {
 // @access  Public
 exports.register = async (req, res) => {
   try {
-    const { name, email, password, phone, role } = req.body;
+    const { name, email, password, phone, role, companyName } = req.body;
 
     // Validation
     if (!name || !email || !password || !role) {
@@ -44,15 +44,15 @@ exports.register = async (req, res) => {
 
     // Create profile based on role
     if (role === 'jobseeker') {
-      await JobSeekerProfile.create({ 
+      await JobSeekerProfile.create({
         userId: user._id,
         name: name,
         email: email
       });
     } else if (role === 'employer') {
-      await EmployerProfile.create({ 
-        userId: user._id, 
-        companyName: name 
+      await EmployerProfile.create({
+        userId: user._id,
+        companyName: companyName || name
       });
     }
 
@@ -140,7 +140,7 @@ exports.login = async (req, res) => {
 exports.getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
-    
+
     let profile;
     if (user.role === 'jobseeker') {
       profile = await JobSeekerProfile.findOne({ userId: user._id }).populate('savedJobs');
@@ -167,9 +167,9 @@ exports.logout = async (req, res) => {
     httpOnly: true,
     expires: new Date(0)
   });
-  
-  res.json({ 
+
+  res.json({
     success: true,
-    message: 'Logout successful' 
+    message: 'Logout successful'
   });
 };

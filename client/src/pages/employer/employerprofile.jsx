@@ -11,6 +11,8 @@ export default function EmployerProfile() {
   const { t } = useTranslation();
   const { user, token, loading: authLoading } = useAuth();
   const [profile, setProfile] = useState({
+    name: '',
+    phone: '',
     companyName: '',
     website: '',
     description: '',
@@ -36,14 +38,22 @@ export default function EmployerProfile() {
       try {
         const res = await api.get('/employer/profile');
         if (res.data.success && res.data.profile) {
-          setProfile(res.data.profile);
-        } else if (user) {
-          setProfile(prev => ({ ...prev, companyName: user.name || '' }));
+          const { userId, ...profileData } = res.data.profile;
+          setProfile({
+            ...profileData,
+            name: userId?.name || user?.name || '',
+            phone: userId?.phone || user?.phone || ''
+          });
         }
       } catch (err) {
         console.log('Employer profile not found, using defaults', err?.message || err);
         if (user) {
-          setProfile(prev => ({ ...prev, companyName: user.name || '' }));
+          setProfile(prev => ({
+            ...prev,
+            name: user.name || '',
+            phone: user.phone || '',
+            companyName: user.name || ''
+          }));
         }
       } finally {
         setLoading(false);
@@ -71,6 +81,8 @@ export default function EmployerProfile() {
   const handleSaveProfile = async () => {
     try {
       const formData = new FormData();
+      formData.append('name', profile.name || '');
+      formData.append('phone', profile.phone || '');
       formData.append('companyName', profile.companyName || '');
       formData.append('website', profile.website || '');
       formData.append('description', profile.description || '');
@@ -80,7 +92,12 @@ export default function EmployerProfile() {
 
       const res = await api.put('/employer/profile', formData);
       if (res.data.success && res.data.profile) {
-        setProfile(res.data.profile);
+        const { userId, ...updatedProfile } = res.data.profile;
+        setProfile({
+          ...updatedProfile,
+          name: profile.name, // Keep current values as they were just saved
+          phone: profile.phone
+        });
         setIsEditing(false);
         setLogoFile(null);
         setPreviewLogo(null);
@@ -125,6 +142,24 @@ export default function EmployerProfile() {
           </div>
 
           <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-semibold text-gray-300 mb-2">Employer Name</label>
+              {isEditing ? (
+                <input name="name" value={profile.name || ''} onChange={handleInputChange} className="w-full px-4 py-2 bg-slate-700 border border-gray-600 rounded-lg text-white" />
+              ) : (
+                <p className="text-white">{profile.name || t('jobDetails.notSpecified')}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-300 mb-2">Mobile Number</label>
+              {isEditing ? (
+                <input name="phone" value={profile.phone || ''} onChange={handleInputChange} className="w-full px-4 py-2 bg-slate-700 border border-gray-600 rounded-lg text-white" />
+              ) : (
+                <p className="text-white">{profile.phone || t('jobDetails.notSpecified')}</p>
+              )}
+            </div>
+
             <div>
               <label className="block text-sm font-semibold text-gray-300 mb-2">{t('profile.companyName')}</label>
               {isEditing ? (

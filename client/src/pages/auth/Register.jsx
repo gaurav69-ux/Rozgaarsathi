@@ -13,6 +13,7 @@ const Register = () => {
     role: 'jobseeker'
   });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const { register } = useAuth();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -20,12 +21,15 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+    setError('');
+
     const result = await register(formData);
-    
+
     if (result.success) {
       // After successful registration, send user to login page
       navigate('/login');
+    } else {
+      setError(result.error || 'Registration failed');
     }
     setLoading(false);
   };
@@ -38,64 +42,14 @@ const Register = () => {
           <h2 className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
             {t('register.title')}
           </h2>
-          
+
+          {error && (
+            <div className="mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-200 text-sm text-center">
+              {error}
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-purple-300 mb-2">
-                {t('register.fullName')}
-              </label>
-              <input
-                type="text"
-                placeholder="John Doe"
-                className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
-                value={formData.name}
-                onChange={(e) => setFormData({...formData, name: e.target.value})}
-                required
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-purple-300 mb-2">
-                {t('register.email')}
-              </label>
-              <input
-                type="email"
-                placeholder="john@example.com"
-                className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
-                value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
-                required
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-purple-300 mb-2">
-                {t('register.password')}
-              </label>
-              <input
-                type="password"
-                placeholder={t('register.passwordMinimum')}
-                className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
-                value={formData.password}
-                onChange={(e) => setFormData({...formData, password: e.target.value})}
-                required
-                minLength={6}
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-purple-300 mb-2">
-                {t('register.phone')}
-              </label>
-              <input
-                type="tel"
-                placeholder="1234567890"
-                className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
-                value={formData.phone}
-                onChange={(e) => setFormData({...formData, phone: e.target.value})}
-              />
-            </div>
-            
             <div>
               <label className="block text-sm font-medium text-purple-300 mb-2">
                 {t('register.role')}
@@ -103,13 +57,86 @@ const Register = () => {
               <select
                 className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white focus:outline-none focus:border-purple-500 transition-all"
                 value={formData.role}
-                onChange={(e) => setFormData({...formData, role: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
               >
                 <option value="jobseeker">{t('register.jobseeker')}</option>
                 <option value="employer">{t('register.employer')}</option>
               </select>
             </div>
-            
+
+            <div>
+              <label className="block text-sm font-medium text-purple-300 mb-2">
+                {formData.role === 'employer' ? 'Employer Name' : t('register.fullName')}
+              </label>
+              <input
+                type="text"
+                placeholder="Enter your name"
+                className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                required
+              />
+            </div>
+
+            {formData.role === 'employer' && (
+              <div>
+                <label className="block text-sm font-medium text-purple-300 mb-2">
+                  Company Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter your company name"
+                  className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
+                  value={formData.companyName || ''}
+                  onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                  required
+                />
+              </div>
+            )}
+
+            <div>
+              <label className="block text-sm font-medium text-purple-300 mb-2">
+                {t('register.email')}
+              </label>
+              <input
+                type="email"
+                placeholder="example@gmail.com"
+                className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-purple-300 mb-2">
+                Mobile Number
+              </label>
+              <input
+                type="tel"
+                placeholder="+91 1234567890"
+                className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-purple-300 mb-2">
+                {formData.role === 'employer' ? 'Create Password' : 'Create Password'}
+              </label>
+              <input
+                type="password"
+                placeholder={t('register.passwordMinimum')}
+                className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                required
+                minLength={6}
+              />
+            </div>
+
             <button
               type="submit"
               disabled={loading}
@@ -118,7 +145,7 @@ const Register = () => {
               {loading ? t('register.registering') : t('register.register')}
             </button>
           </form>
-          
+
           <div className="mt-6 text-center">
             <span className="text-purple-300">{t('register.alreadyAccount')} </span>
             <Link to="/login" className="text-purple-400 hover:text-purple-300 transition-colors">

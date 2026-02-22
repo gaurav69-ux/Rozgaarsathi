@@ -1,13 +1,14 @@
 const EmployerProfile = require('../models/EmployerProfile');
 const Job = require('../models/Job');
 const Application = require('../models/Application');
+const User = require('../models/User');
 
 // @desc    Get employer profile
 // @route   GET /api/employer/profile
 // @access  Private (Employer only)
 exports.getProfile = async (req, res) => {
   try {
-    const profile = await EmployerProfile.findOne({ userId: req.user.id });
+    const profile = await EmployerProfile.findOne({ userId: req.user.id }).populate('userId', 'name email phone');
 
     if (!profile) {
       return res.status(404).json({ message: 'Profile not found' });
@@ -28,7 +29,16 @@ exports.getProfile = async (req, res) => {
 // @access  Private (Employer only)
 exports.updateProfile = async (req, res) => {
   try {
-    const { companyName, website, description, location, industry } = req.body;
+    const { companyName, website, description, location, industry, name, phone } = req.body;
+
+    // Update User details if provided
+    if (name || phone) {
+      const userUpdateData = {};
+      if (name) userUpdateData.name = name;
+      if (phone) userUpdateData.phone = phone;
+
+      await User.findByIdAndUpdate(req.user.id, userUpdateData);
+    }
 
     const updateData = {
       companyName,
