@@ -30,6 +30,9 @@ export const PublicRoute = ({ children }) => {
     if (user?.role === 'jobseeker') {
       return <Navigate to="/jobseeker/dashboard" replace />;
     }
+    if (user?.role === 'admin') {
+      return <Navigate to="/admin/dashboard" replace />;
+    }
     // Fallback for unknown roles or if user object is not fully loaded yet but is authenticated
     return <Navigate to="/" replace />;
   }
@@ -67,4 +70,20 @@ export const EmployerRoute = ({ children }) => {
   }
 
   return user?.role === 'employer' ? children : <Navigate to="/" replace />;
+};
+
+// Protects admin routes - only admins can access
+export const AdminRoute = ({ children }) => {
+  const { isAuthenticated, user, loading } = useAuth();
+  const { t } = useTranslation();
+
+  if (loading) {
+    return <div>{t('messages.loading')}</div>;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return user?.role === 'admin' ? children : <Navigate to="/" replace />;
 };

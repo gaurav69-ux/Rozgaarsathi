@@ -138,7 +138,7 @@ export default function JobDetails() {
           <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-6">
             <div className="pr-16 md:pr-0">
               <h1 className="text-3xl font-bold text-white mb-2">{job.title}</h1>
-              <div className="text-purple-300 mb-1">{job.employerId?.name || t('jobCard.company')}</div>
+              <div className="text-purple-300 mb-1">{job.companyName || job.employerId?.name || t('jobCard.company')}</div>
               <div className="text-gray-300 text-sm flex items-center space-x-4">
                 {job.location && (
                   <span className="flex items-center"><MapPin className="w-4 h-4 mr-2 text-purple-400" />{job.location}</span>

@@ -52,7 +52,7 @@ const JobCard = ({ job, onSaveToggle, initialSaved = false }) => {
           </h3>
           <div className="flex items-center space-x-2 text-purple-300 mb-2">
             <Building className="w-4 h-4" />
-            <span>{job.employerId?.name || t('jobCard.company')}</span>
+            <span>{job.companyName || job.employerId?.name || t('jobCard.company')}</span>
           </div>
         </div>
         {isAuthenticated && user?.role === 'jobseeker' && (

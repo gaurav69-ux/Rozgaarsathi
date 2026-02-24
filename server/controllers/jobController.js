@@ -1,25 +1,26 @@
 const Job = require('../models/Job');
 const JobSeekerProfile = require('../models/JobSeekerProfile');
+const EmployerProfile = require('../models/EmployerProfile');
 
 // @desc    Get all jobs with filters
 // @route   GET /api/jobs
 // @access  Public
 exports.getAllJobs = async (req, res) => {
   try {
-    const { 
-      title, 
-      location, 
-      category, 
-      jobType, 
-      minSalary, 
-      maxSalary, 
-      page = 1, 
-      limit = 10 
+    const {
+      title,
+      location,
+      category,
+      jobType,
+      minSalary,
+      maxSalary,
+      page = 1,
+      limit = 10
     } = req.query;
-    
+
     // Build query
     const query = { status: 'active' };
-    
+
     if (title) {
       query.title = { $regex: title, $options: 'i' };
     }
@@ -70,7 +71,7 @@ exports.getJobById = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id)
       .populate('employerId', 'name email');
-    
+
     if (!job) {
       return res.status(404).json({ message: 'Job not found' });
     }
@@ -90,17 +91,21 @@ exports.getJobById = async (req, res) => {
 // @access  Private (Employer only)
 exports.createJob = async (req, res) => {
   try {
+    // Fetch employer profile for company name
+    const profile = await EmployerProfile.findOne({ userId: req.user.id });
+
     const jobData = {
       ...req.body,
-      employerId: req.user.id
+      employerId: req.user.id,
+      companyName: profile ? profile.companyName : 'Independent Employer'
     };
 
     const job = await Job.create(jobData);
-    
-    res.status(201).json({ 
+
+    res.status(201).json({
       success: true,
-      message: 'Job created successfully', 
-      job 
+      message: 'Job created successfully',
+      job
     });
   } catch (error) {
     console.error('Create job error:', error);
@@ -125,15 +130,15 @@ exports.updateJob = async (req, res) => {
     }
 
     const updatedJob = await Job.findByIdAndUpdate(
-      req.params.id, 
-      req.body, 
+      req.params.id,
+      req.body,
       { new: true, runValidators: true }
     );
-    
-    res.json({ 
+
+    res.json({
       success: true,
-      message: 'Job updated successfully', 
-      job: updatedJob 
+      message: 'Job updated successfully',
+      job: updatedJob
     });
   } catch (error) {
     console.error('Update job error:', error);
@@ -158,10 +163,10 @@ exports.deleteJob = async (req, res) => {
     }
 
     await Job.findByIdAndDelete(req.params.id);
-    
-    res.json({ 
+
+    res.json({
       success: true,
-      message: 'Job deleted successfully' 
+      message: 'Job deleted successfully'
     });
   } catch (error) {
     console.error('Delete job error:', error);
@@ -187,22 +192,22 @@ exports.saveJob = async (req, res) => {
       // Remove from saved jobs
       profile.savedJobs = profile.savedJobs.filter(id => id.toString() !== jobId);
       await profile.save();
-      
-      return res.json({ 
+
+      return res.json({
         success: true,
-        message: 'Job removed from saved list', 
-        saved: false 
+        message: 'Job removed from saved list',
+        saved: false
       });
     }
 
     // Add to saved jobs
     profile.savedJobs.push(jobId);
     await profile.save();
-    
-    res.json({ 
+
+    res.json({
       success: true,
-      message: 'Job saved successfully', 
-      saved: true 
+      message: 'Job saved successfully',
+      saved: true
     });
   } catch (error) {
     console.error('Save job error:', error);

@@ -1,62 +1,66 @@
 const mongoose = require('mongoose');
 
 const jobSchema = new mongoose.Schema({
-  employerId: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User', 
-    required: true 
+  employerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   },
-  title: { 
-    type: String, 
+  title: {
+    type: String,
     required: [true, 'Job title is required'],
     trim: true
   },
-  description: { 
-    type: String, 
-    required: [true, 'Job description is required']
-  },
-  requirements: { 
-    type: String 
-  },
-  category: { 
+  companyName: {
     type: String,
     trim: true
   },
-  jobType: { 
-    type: String, 
-    enum: ['full-time', 'part-time', 'remote', 'contract'], 
-    required: true 
+  description: {
+    type: String,
+    required: [true, 'Job description is required']
+  },
+  requirements: {
+    type: String
+  },
+  category: {
+    type: String,
+    trim: true
+  },
+  jobType: {
+    type: String,
+    enum: ['full-time', 'part-time', 'remote', 'contract'],
+    required: true
   },
   salary: {
     min: Number,
     max: Number,
-    currency: { 
-      type: String, 
-      default: 'USD' 
+    currency: {
+      type: String,
+      default: 'USD'
     }
   },
-  location: { 
+  location: {
     type: String,
     trim: true
   },
-  experienceLevel: { 
+  experienceLevel: {
     type: String,
     trim: true
   },
-  postedDate: { 
-    type: Date, 
-    default: Date.now 
+  postedDate: {
+    type: Date,
+    default: Date.now
   },
-  deadline: { 
-    type: Date 
+  deadline: {
+    type: Date
   },
-  status: { 
-    type: String, 
-    enum: ['active', 'closed'], 
-    default: 'active' 
+  status: {
+    type: String,
+    enum: ['active', 'closed'],
+    default: 'active'
   }
-}, { 
-  timestamps: true 
+}, {
+  timestamps: true
 });
 
 // Index for search optimization

@@ -146,6 +146,8 @@ exports.getProfile = async (req, res) => {
       profile = await JobSeekerProfile.findOne({ userId: user._id }).populate('savedJobs');
     } else if (user.role === 'employer') {
       profile = await EmployerProfile.findOne({ userId: user._id });
+    } else if (user.role === 'admin') {
+      profile = { isAdmin: true };
     }
 
     res.json({

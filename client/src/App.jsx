@@ -13,8 +13,10 @@ import EmployerProfile from './pages/employer/employerprofile';
 import EmployerDashboard from './pages/employer/Dashboard';
 import EmployerApplications from './pages/employer/applications';
 
+import AdminDashboard from './pages/admin/Dashboard';
+
 // Protected Routes
-import { PrivateRoute, PublicRoute, JobSeekerRoute, EmployerRoute } from './components/ProtectedRoute';
+import { PrivateRoute, PublicRoute, JobSeekerRoute, EmployerRoute, AdminRoute } from './components/ProtectedRoute';
 
 
 
@@ -78,6 +80,13 @@ function AppRoutes() {
           <EmployerRoute>
             <EmployerApplications />
           </EmployerRoute>
+        } />
+
+        {/* Admin Routes */}
+        <Route path="/admin/dashboard" element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
         } />
 
         {/* Catch all - redirect to home */}

@@ -56,6 +56,8 @@ app.use('/api/jobseeker', require('./routes/jobSeekerRoutes'));
 app.use('/api/employer', require('./routes/employerRoutes'));
 app.use('/api/jobs', require('./routes/jobRoutes'));
 app.use('/api/applications', require('./routes/applicationRoutes'));
+app.use('/api/admin', require('./routes/adminRoutes'));
+app.use('/api/location', require('./routes/locationRoutes'));
 
 // Health Check Route
 app.get('/api/health', (req, res) => {
