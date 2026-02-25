@@ -3,51 +3,72 @@
 A modern, full-stack Job Portal application designed for Job Seekers and Employers.
 
 ## 🚀 Overview
-
 This project is a comprehensive platform where:
 - **Job Seekers** can find nearby jobs, save listings, and apply with their resumes.
 - **Employers** can post jobs, manage their postings, and view applicant profiles.
 
 ## 🛠️ Tech Stack
-
-- **Frontend**: React, Vite, Tailwind CSS, i18next (Multi-language support), Lucide React (Icons).
-- **Backend**: Node.js, Express, MongoDB (Mongoose), JWT (Authentication).
-- **Storage**: AWS S3 integration (ready for implementation).
-
-## 📂 Project Structure
-
-- `/client`: React frontend application.
-- `/server`: Node.js Express API.
+- **Frontend**: React, Vite, Tailwind CSS, i18next.
+- **Backend**: Node.js (Express 5), MongoDB, JWT.
+- **Storage**: AWS S3 integration.
 
 ## ⚙️ Setup Instructions
 
 ### 1. Prerequisites
-- Node.js installed.
-- MongoDB instance (Local or Atlas).
+- Node.js (v18+)
+- MongoDB (Local or Atlas)
 
-### 2. Backend Setup
-1. Navigate to the `server` directory: `cd server`
-2. Install dependencies: `npm install`
-3. Create a `.env` file based on `example.env` and fill in your details:
-   - `MONGO_URI`
-   - `JWT_SECRET`
-   - `PORT=3000`
-   - `CLIENT_URL=http://localhost:5173`
-4. Start the server: `npm run dev`
+### 2. Standard Setup
+1. `npm install` (in root)
+2. `npm run dev` (starts both client and server)
 
-### 3. Frontend Setup
-1. Navigate to the `client` directory: `cd client`
-2. Install dependencies: `npm install`
-3. Create a `.env` file based on `example.env`:
-   - `VITE_API_URL=http://localhost:3000/api`
-4. Start the development server: `npm run dev`
+## 🌐 Production Deployment (AWS EC2 / Linux)
 
-## 🌟 Key Features
-- **Dynamic Forms**: Registration fields change based on user role (Employer/Jobseeker).
-- **Profile Management**: Full profile editing for both user types.
-- **Multi-language**: Supports English and Hindi.
-- **Responsive UI**: Optimized for mobile and desktop screens.
-- **Real-time Feedback**: Clear error messages and loading states for better UX.
+Linux is **case-sensitive**, so follow these steps carefully:
+
+### 1. Build the Frontend
+```bash
+cd client
+npm install
+npm run build
+```
+
+### 2. Start Backend with PM2
+```bash
+cd server
+npm install
+npm install -g pm2
+pm2 start server.js --name "job-portal-api"
+```
+
+### 3. Nginx Configuration
+We recommend using Nginx on port 80 to serve the frontend and proxy the API.
+
+```nginx
+server {
+    listen 80;
+    server_name your_domain_or_ip;
+
+    root /home/ubuntu/job-portal/client/dist;
+    index index.html;
+
+    location / {
+        try_files $uri /index.html;
+    }
+
+    location /api {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
+
+### 🛡️ Troubleshooting (Express 5)
+If you see `PathError` in logs, ensure all wildcard routes use `/*` instead of `*`. This project is optimized for Express 5.
 
 ## 🛡️ License
 Distributed under the MIT License.

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const jobSeekerController = require('../controllers/JobSeekerController');
+const jobSeekerController = require('../controllers/jobSeekerController');
 const { protect, authorize } = require('../middleware/authMiddleware');
 const upload = require('../middleware/s3UploadMiddleware');
 

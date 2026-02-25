@@ -1,7 +1,7 @@
-const EmployerProfile = require('../models/EmployerProfile');
-const Job = require('../models/Job');
-const Application = require('../models/Application');
-const User = require('../models/User');
+const EmployerProfile = require('../models/employerProfile');
+const Job = require('../models/job');
+const Application = require('../models/application');
+const User = require('../models/user');
 
 // @desc    Get employer profile
 // @route   GET /api/employer/profile

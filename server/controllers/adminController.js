@@ -1,6 +1,6 @@
-const User = require('../models/User');
-const Job = require('../models/Job');
-const Application = require('../models/Application');
+const User = require('../models/user');
+const Job = require('../models/job');
+const Application = require('../models/application');
 
 // @desc    Get dashboard statistics
 // @route   GET /api/admin/stats

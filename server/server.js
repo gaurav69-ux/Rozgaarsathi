@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 // Rate Limiting
 const rateLimit = require('express-rate-limit');
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
+  windowMs: 900000,
   max: 100,
   message: 'Too many requests'
 });
@@ -33,22 +33,11 @@ app.use('/api/', limiter);
 // CORS
 app.use(cors({
   origin: [
-    process.env.CLIENT_URL || "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://localhost:5174",
-    "http://127.0.0.1:5174",
-    "http://localhost:3000"
+    process.env.CLIENT_URL || "http://localhost:5173"
   ],
   credentials: true
 }));
 
-
-// Serve static files
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// Serve frontend static files
-const buildPath = path.resolve(__dirname, '../client/dist');
-app.use(express.static(buildPath));
 
 // Import and use routes
 app.use('/api/auth', require('./routes/authRoutes'));
@@ -62,23 +51,6 @@ app.use('/api/location', require('./routes/locationRoutes'));
 // Health Check Route
 app.get('/api/health', (req, res) => {
   res.json({ message: '🚀 Job Portal API is running', status: 'active' });
-});
-
-// Serve frontend index.html for unknown routes (SPA)
-app.use((req, res) => {
-  // If it's an API route that wasn't matched, return 404
-  if (req.path.startsWith('/api')) {
-    return res.status(404).json({ message: 'API Route not found' });
-  }
-  // Otherwise, serve index.html
-  const indexPath = path.join(buildPath, 'index.html');
-  res.sendFile(indexPath, (err) => {
-    if (err) {
-      if (!res.headersSent) {
-        res.status(404).json({ message: 'Frontend build not found or API route not found' });
-      }
-    }
-  });
 });
 
 
