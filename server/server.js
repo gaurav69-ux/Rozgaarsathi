@@ -21,6 +21,8 @@ app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Rate Limiting
 const rateLimit = require('express-rate-limit');
 const limiter = rateLimit({

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const applicationController = require('../controllers/applicationController');
 const { protect, authorize } = require('../middleware/authMiddleware');
-const upload = require('../middleware/s3UploadMiddleware');
+const upload = require('../middleware/uploadMiddleware');
 
 // Job Seeker routes
 router.post('/', protect, authorize('jobseeker'), upload.single('resume'), applicationController.applyJob);

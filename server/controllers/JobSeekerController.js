@@ -1,5 +1,7 @@
 const JobSeekerProfile = require('../models/JobSeekerProfile');
 
+const getUploadedFilePath = (file) => file?.location || file?.path || null;
+
 // @desc    Get job seeker profile
 // @route   GET /api/jobseeker/profile
 // @access  Private (Job Seeker only)
@@ -44,12 +46,12 @@ exports.updateProfileDetails = async (req, res) => {
 
     // Handle profile photo upload
     if (req.files?.profilePhoto) {
-      updateData.profilePhoto = req.files.profilePhoto[0].location;
+      updateData.profilePhoto = getUploadedFilePath(req.files.profilePhoto[0]);
     }
 
     // Handle resume upload
     if (req.files?.resume) {
-      updateData.resume = req.files.resume[0].location;
+      updateData.resume = getUploadedFilePath(req.files.resume[0]);
     }
 
     // Find or create profile
@@ -101,7 +103,7 @@ exports.updateProfile = async (req, res) => {
 
     // Handle resume file upload
     if (req.file) {
-      updateData.resume = req.file.location;
+      updateData.resume = getUploadedFilePath(req.file);
     }
 
     const profile = await JobSeekerProfile.findOneAndUpdate(
