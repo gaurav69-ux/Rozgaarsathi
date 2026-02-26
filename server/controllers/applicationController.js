@@ -1,4 +1,6 @@
 const Application = require('../models/Application');
+
+const getUploadedFilePath = (file) => file?.location || file?.path || null;
 const Job = require('../models/Job');
 
 // @desc    Apply to a job
@@ -33,7 +35,7 @@ exports.applyJob = async (req, res) => {
     const application = await Application.create({
       jobId,
       jobSeekerId: req.user.id,
-      resume: req.file ? req.file.location : null,
+      resume: req.file ? getUploadedFilePath(req.file) : null,
       coverLetter
     });
 
