@@ -1,6 +1,6 @@
-const Job = require('../models/job');
-const JobSeekerProfile = require('../models/jobSeekerProfile');
-const EmployerProfile = require('../models/employerProfile');
+const Job = require('../models/Job');
+const JobSeekerProfile = require('../models/JobSeekerProfile');
+const EmployerProfile = require('../models/EmployerProfile');
 
 // @desc    Get all jobs with filters
 // @route   GET /api/jobs
