@@ -41,9 +41,9 @@ app.use(cors({
 
 // Import and use routes
 app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/jobseeker', require('./routes/jobSeekerRoutes'));
+app.use('/api/jobseeker', require('./routes/JobSeekerRoutes'));
 app.use('/api/employer', require('./routes/employerRoutes'));
-app.use('/api/jobs', require('./routes/jobRoutes'));
+app.use('/api/jobs', require('./routes/JobRoutes'));
 app.use('/api/applications', require('./routes/applicationRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/location', require('./routes/locationRoutes'));
