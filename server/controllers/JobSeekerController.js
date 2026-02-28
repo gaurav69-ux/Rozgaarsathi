@@ -1,4 +1,4 @@
-const JobSeekerProfile = require('../models/jobSeekerProfile');
+const JobSeekerProfile = require('../models/jobseekerprofile');
 
 // @desc    Get job seeker profile
 // @route   GET /api/jobseeker/profile

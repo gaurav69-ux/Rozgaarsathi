@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const Worker = require('../models/worker');
-const GeoJob = require('../models/geoJob');
+const GeoJob = require('../models/geojob');
 
 dotenv.config();
 

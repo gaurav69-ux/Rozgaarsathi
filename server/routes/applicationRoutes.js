@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const applicationController = require('../controllers/applicationController');
 const { protect, authorize } = require('../middleware/authMiddleware');
-const upload = require('../middleware/s3UploadMiddleware');
+// S3 upload middleware removed
 
 // Job Seeker routes
-router.post('/', protect, authorize('jobseeker'), upload.single('resume'), applicationController.applyJob);
+router.post('/', protect, authorize('jobseeker'), applicationController.applyJob);
 router.get('/my-applications', protect, authorize('jobseeker'), applicationController.getMyApplications);
 
 // Employer routes

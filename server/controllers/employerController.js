@@ -1,4 +1,4 @@
-const EmployerProfile = require('../models/employerProfile');
+const EmployerProfile = require('../models/employerprofile');
 const Job = require('../models/job');
 const Application = require('../models/application');
 const User = require('../models/user');

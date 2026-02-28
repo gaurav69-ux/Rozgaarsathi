@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Worker = require('../models/worker');
-const GeoJob = require('../models/geoJob');
+const GeoJob = require('../models/geojob');
 
 /**
  * @route   GET /api/location/workers/nearby
