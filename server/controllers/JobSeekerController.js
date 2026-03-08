@@ -1,4 +1,6 @@
-const JobSeekerProfile = require('../models/jobseekerprofile');
+const JobSeekerProfile = require('../models/JobSeekerProfile');
+
+const getUploadedFilePath = (file) => file?.location || file?.path || null;
 
 // @desc    Get job seeker profile
 // @route   GET /api/jobseeker/profile
@@ -42,14 +44,19 @@ exports.updateProfileDetails = async (req, res) => {
       updateData[key] === undefined && delete updateData[key]
     );
 
-    // Handle profile photo upload
+    // Handle profile photo upload to S3
+    const { uploadToS3 } = require('../middleware/uploadMiddleware');
     if (req.files?.profilePhoto) {
-      updateData.profilePhoto = req.files.profilePhoto[0].location;
+      const file = req.files.profilePhoto[0];
+      const s3Url = await uploadToS3(file.buffer, `${req.user.id}-profilePhoto${path.extname(file.originalname)}`, file.mimetype, 'profile-photos');
+      updateData.profilePhoto = s3Url;
     }
 
-    // Handle resume upload
+    // Handle resume upload to S3
     if (req.files?.resume) {
-      updateData.resume = req.files.resume[0].location;
+      const file = req.files.resume[0];
+      const s3Url = await uploadToS3(file.buffer, `${req.user.id}-resume${path.extname(file.originalname)}`, file.mimetype, 'resumes');
+      updateData.resume = s3Url;
     }
 
     // Find or create profile
@@ -101,7 +108,7 @@ exports.updateProfile = async (req, res) => {
 
     // Handle resume file upload
     if (req.file) {
-      updateData.resume = req.file.location;
+      updateData.resume = getUploadedFilePath(req.file);
     }
 
     const profile = await JobSeekerProfile.findOneAndUpdate(

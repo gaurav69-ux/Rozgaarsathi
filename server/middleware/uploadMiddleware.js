@@ -1,25 +1,17 @@
+
 const multer = require('multer');
 const path = require('path');
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 
-// Configure storage
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    // Generate unique filename: timestamp-originalname
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
-  }
+const s3 = new S3Client({
+  region: process.env.AWS_REGION,
 });
 
 // File filter - only allow specific file types
 const fileFilter = (req, file, cb) => {
-  // Allowed file extensions
   const allowedTypes = /pdf|doc|docx|jpeg|jpg|png/;
   const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
   const mimetype = allowedTypes.test(file.mimetype);
-
   if (extname && mimetype) {
     cb(null, true);
   } else {
@@ -27,13 +19,28 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-// Create multer upload instance
+const storage = multer.memoryStorage();
+
 const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
-  limits: { 
+  limits: {
     fileSize: 5 * 1024 * 1024 // 5MB limit
   }
 });
 
-module.exports = upload;
+// S3 upload helper
+async function uploadToS3(fileBuffer, fileName, mimeType, folder = '') {
+  const bucket = process.env.AWS_BUCKET_NAME;
+  const key = folder ? `${folder}/${fileName}` : fileName;
+  const params = {
+    Bucket: bucket,
+    Key: key,
+    Body: fileBuffer,
+    ContentType: mimeType,
+  };
+  await s3.send(new PutObjectCommand(params));
+  return `https://${bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+}
+
+module.exports = { upload, uploadToS3 };

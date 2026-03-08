@@ -1,7 +1,9 @@
-const EmployerProfile = require('../models/employerprofile');
-const Job = require('../models/job');
-const Application = require('../models/application');
-const User = require('../models/user');
+const EmployerProfile = require('../models/EmployerProfile');
+
+const getUploadedFilePath = (file) => file?.location || file?.path || null;
+const Job = require('../models/Job');
+const Application = require('../models/Application');
+const User = require('../models/User');
 
 // @desc    Get employer profile
 // @route   GET /api/employer/profile
@@ -50,7 +52,7 @@ exports.updateProfile = async (req, res) => {
 
     // Handle company logo upload
     if (req.file) {
-      updateData.companyLogo = req.file.location;
+      updateData.companyLogo = getUploadedFilePath(req.file);
     }
 
     const profile = await EmployerProfile.findOneAndUpdate(

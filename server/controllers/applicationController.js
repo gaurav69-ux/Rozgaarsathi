@@ -1,5 +1,7 @@
-const Application = require('../models/application');
-const Job = require('../models/job');
+const Application = require('../models/Application');
+
+const getUploadedFilePath = (file) => file?.location || file?.path || null;
+const Job = require('../models/Job');
 
 // @desc    Apply to a job
 // @route   POST /api/applications
@@ -29,11 +31,17 @@ exports.applyJob = async (req, res) => {
       return res.status(400).json({ message: 'You have already applied to this job' });
     }
 
+    // Upload resume to S3 if present
+    let resumeUrl = null;
+    if (req.file) {
+      const { uploadToS3 } = require('../middleware/uploadMiddleware');
+      resumeUrl = await uploadToS3(req.file.buffer, `${req.user.id}-resume${path.extname(req.file.originalname)}`, req.file.mimetype, 'resumes');
+    }
     // Create application (resume is optional)
     const application = await Application.create({
       jobId,
       jobSeekerId: req.user.id,
-      resume: req.file ? req.file.location : null,
+      resume: resumeUrl,
       coverLetter
     });
 

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const jobController = require('../controllers/jobController');
+const jobController = require('../controllers/JobController');
 const { protect, authorize } = require('../middleware/authMiddleware');
 
 // Public routes

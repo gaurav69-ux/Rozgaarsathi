@@ -21,6 +21,8 @@ app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Rate Limiting
 const rateLimit = require('express-rate-limit');
 const limiter = rateLimit({
@@ -40,13 +42,13 @@ app.use(cors({
 
 
 // Import and use routes
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/jobseeker', require('./routes/jobSeekerRoutes'));
-app.use('/api/employer', require('./routes/employerRoutes'));
-app.use('/api/jobs', require('./routes/jobRoutes'));
-app.use('/api/applications', require('./routes/applicationRoutes'));
-app.use('/api/admin', require('./routes/adminRoutes'));
-app.use('/api/location', require('./routes/locationRoutes'));
+app.use('/api/auth', require('./routes/AuthRoutes'));
+app.use('/api/jobseeker', require('./routes/JobSeekerRoutes'));
+app.use('/api/employer', require('./routes/EmployerRoutes'));
+app.use('/api/jobs', require('./routes/JobRoutes'));
+app.use('/api/applications', require('./routes/ApplicationRoutes'));
+app.use('/api/admin', require('./routes/AdminRoutes'));
+app.use('/api/location', require('./routes/LocationRoutes'));
 
 // Health Check Route
 app.get('/api/health', (req, res) => {

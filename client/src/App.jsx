@@ -6,12 +6,12 @@ import Home from './pages/Home';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import JobSeekerDashboard from './pages/jobseeker/Dashboard';
-import JobSeekerProfile from './pages/jobseeker/jobseekerprofile';
+import JobSeekerProfile from './pages/jobseeker/Jobseekerprofile';
 import NearbyJobs from './pages/jobseeker/NearbyJobs';
-import JobDetails from './pages/jobseeker/job-details';
-import EmployerProfile from './pages/employer/employerprofile';
+import JobDetails from './pages/jobseeker/JobDetails';
+import EmployerProfile from './pages/employer/Employerprofile';
 import EmployerDashboard from './pages/employer/Dashboard';
-import EmployerApplications from './pages/employer/applications';
+import EmployerApplications from './pages/employer/Applications';
 
 import AdminDashboard from './pages/admin/Dashboard';
 

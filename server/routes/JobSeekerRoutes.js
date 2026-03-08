@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const jobSeekerController = require('../controllers/jobSeekerController');
+const jobSeekerController = require('../controllers/JobSeekerController');
 const { protect, authorize } = require('../middleware/authMiddleware');
-// S3 upload middleware removed
+
+const upload = require('../middleware/uploadMiddleware');
 
 // All routes are protected and for job seekers only
 router.get('/profile', protect, authorize('jobseeker'), jobSeekerController.getProfile);

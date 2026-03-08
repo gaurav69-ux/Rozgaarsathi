@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+<<<<<<< HEAD
 const Worker = require('../models/worker');
 const GeoJob = require('../models/geojob');
+=======
+const Worker = require('../models/Worker');
+const GeoJob = require('../models/GeoJob');
+>>>>>>> aa1a448f6564d384b3ccbe975778b003ffdf833a
 
 dotenv.config();
 
