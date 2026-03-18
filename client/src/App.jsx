@@ -12,7 +12,6 @@ import JobDetails from './pages/jobseeker/JobDetails';
 import EmployerProfile from './pages/employer/Employerprofile';
 import EmployerDashboard from './pages/employer/Dashboard';
 import EmployerApplications from './pages/employer/Applications';
-
 import AdminDashboard from './pages/admin/Dashboard';
 
 // Protected Routes

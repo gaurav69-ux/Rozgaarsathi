@@ -59,8 +59,8 @@ const Register = () => {
                 value={formData.role}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value })}
               >
-                <option value="jobseeker">{t('register.jobseeker')}</option>
-                <option value="employer">{t('register.employer')}</option>
+                <option value="jobseeker">👷‍♂️ {t('register.jobseeker')}</option>
+                <option value="employer">🧑‍💼 {t('register.employer')}</option>
               </select>
             </div>
 
@@ -81,7 +81,7 @@ const Register = () => {
             {formData.role === 'employer' && (
               <div>
                 <label className="block text-sm font-medium text-purple-300 mb-2">
-                  Company Name
+                  Company/Business Name
                 </label>
                 <input
                   type="text"

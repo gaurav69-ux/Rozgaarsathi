@@ -19,7 +19,7 @@ exports.getAllJobs = async (req, res) => {
     } = req.query;
 
     // Build query
-    const query = { status: 'active' };
+    const query = { status: 'active', removedByAdmin: { $ne: true } };
 
     if (title) {
       query.title = { $regex: title, $options: 'i' };
@@ -148,25 +148,38 @@ exports.updateJob = async (req, res) => {
 
 // @desc    Delete job
 // @route   DELETE /api/jobs/:id
-// @access  Private (Employer only)
+// @access  Private (Employer or Admin)
 exports.deleteJob = async (req, res) => {
   try {
-    const job = await Job.findById(req.params.id);
+    const job = await Job.findById(req.params.id).populate('employerId', 'email name');
 
     if (!job) {
       return res.status(404).json({ message: 'Job not found' });
     }
 
-    // Check if user is the owner
-    if (job.employerId.toString() !== req.user.id) {
+    // Allow admin or employer (owner) to delete
+    let deletedBy = 'employer';
+    if (req.user.role === 'admin') {
+      deletedBy = 'admin';
+      // Soft delete: mark as removed by admin
+      job.removedByAdmin = true;
+      job.removedReason = 'This job was removed by an administrator.';
+      await job.save();
+    } else if (job.employerId.toString() !== req.user.id) {
       return res.status(403).json({ message: 'Not authorized to delete this job' });
+    } else {
+      // Employer hard delete
+      await Job.findByIdAndDelete(req.params.id);
     }
 
-    await Job.findByIdAndDelete(req.params.id);
+    // TODO: Optionally, send email/notification to employer here
 
     res.json({
       success: true,
-      message: 'Job deleted successfully'
+      message: deletedBy === 'admin' ? 'Job deleted by admin. Employer will be notified.' : 'Job deleted successfully',
+      deletedBy,
+      employer: job.employerId ? { email: job.employerId.email, name: job.employerId.name } : null,
+      jobTitle: job.title
     });
   } catch (error) {
     console.error('Delete job error:', error);

@@ -153,6 +153,11 @@ const EmployerDashboard = () => {
                     <h3 className="text-lg font-semibold text-white">{job.title}</h3>
                     <p className="text-purple-300 text-sm">{job.location} • {job.jobType}</p>
                     <p className="text-gray-400 text-sm mt-1">{t('dashboard.posted')}: {new Date(job.postedDate).toLocaleDateString()}</p>
+                    {job.removedByAdmin && (
+                      <div className="mt-2 p-2 bg-red-900/40 border border-red-500/30 rounded text-red-300 text-sm font-semibold">
+                        {job.removedReason || 'This job was removed by an administrator.'}
+                      </div>
+                    )}
                   </div>
                   <div className="flex items-center space-x-4">
                     <div className="text-center">
@@ -165,13 +170,15 @@ const EmployerDashboard = () => {
                       }`}>
                       {job.status}
                     </span>
-                    <button
-                      onClick={() => handleDeleteJob(job._id)}
-                      className="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
-                      title={t('dashboard.deleteJob')}
-                    >
-                      <Trash2 className="w-5 h-5" />
-                    </button>
+                    {!job.removedByAdmin && (
+                      <button
+                        onClick={() => handleDeleteJob(job._id)}
+                        className="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                        title={t('dashboard.deleteJob')}
+                      >
+                        <Trash2 className="w-5 h-5" />
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}

@@ -58,6 +58,14 @@ const jobSchema = new mongoose.Schema({
     type: String,
     enum: ['active', 'closed'],
     default: 'active'
+  },
+  removedByAdmin: {
+    type: Boolean,
+    default: false
+  },
+  removedReason: {
+    type: String,
+    default: ''
   }
 }, {
   timestamps: true

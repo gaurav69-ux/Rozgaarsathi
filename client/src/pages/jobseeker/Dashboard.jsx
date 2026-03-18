@@ -4,7 +4,7 @@ import { Briefcase, Search, Heart, Send, TrendingUp, Zap } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import Background from '../../components/common/Background';
 import Navbar from '../../components/common/Navbar';
-import JobCard from '../../components/common/jobCard';
+import JobCard from '../../components/common/JobCard';
 import api from '../../utils/api';
 
 const JobSeekerDashboard = () => {

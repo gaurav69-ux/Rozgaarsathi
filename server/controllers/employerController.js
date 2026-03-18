@@ -81,6 +81,8 @@ exports.updateProfile = async (req, res) => {
 // @access  Private (Employer only)
 exports.getMyJobs = async (req, res) => {
   try {
+
+    // Include jobs removed by admin, but mark them
     const jobs = await Job.find({ employerId: req.user.id })
       .sort({ postedDate: -1 });
 
@@ -94,9 +96,15 @@ exports.getMyJobs = async (req, res) => {
     const countsMap = {};
     counts.forEach(c => { countsMap[c._id.toString()] = c.count; });
 
+
     const jobsWithCounts = jobs.map(job => {
       const jobObj = job.toObject();
       jobObj.applicationCount = countsMap[job._id.toString()] || 0;
+      // Mark if removed by admin
+      if (job.removedByAdmin) {
+        jobObj.removedByAdmin = true;
+        jobObj.removedReason = job.removedReason || 'This job was removed by an administrator.';
+      }
       return jobObj;
     });
 

@@ -3,12 +3,16 @@ import { Users, Briefcase, FileText, Shield, UserPlus } from 'lucide-react';
 import Background from '../../components/common/Background';
 import Navbar from '../../components/common/Navbar';
 import api from '../../utils/api';
+import AdminJobsList from './AdminJobsList';
+import AdminApplicationsList from './AdminApplicationsList';
 
 const AdminDashboard = () => {
     const [stats, setStats] = useState(null);
     const [recentUsers, setRecentUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [showJobs, setShowJobs] = useState(false);
+    const [showApplications, setShowApplications] = useState(false);
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -80,29 +84,74 @@ const AdminDashboard = () => {
                         </div>
                     </div>
 
-                    {/* Job Stats */}
-                    <div className="bg-slate-900/60 backdrop-blur-lg border border-purple-500/20 rounded-xl p-6">
+                    {/* Job Stats - clickable */}
+                    <div
+                        className="bg-slate-900/60 backdrop-blur-lg border border-purple-500/20 rounded-xl p-6 cursor-pointer hover:border-purple-400 transition"
+                        onClick={() => setShowJobs(true)}
+                        title="Click to view all jobs"
+                    >
                         <div className="flex items-center justify-between mb-4">
                             <Briefcase className="w-8 h-8 text-green-400" />
                             <span className="text-3xl font-bold text-white">{stats.jobs.total}</span>
                         </div>
-                        <div className="text-purple-300 font-medium">Total Jobs</div>
+                        <div className="text-purple-300 font-medium underline">Total Jobs</div>
                         <div className="text-xs text-gray-400 mt-1">
                             {stats.jobs.active} Active Postings
                         </div>
                     </div>
+                {/* Modal/Section for all jobs */}
+                {showJobs && (
+                    <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center">
+                        <div className="bg-slate-900 rounded-xl shadow-2xl p-8 max-w-4xl w-full relative">
+                            <button
+                                className="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl font-bold"
+                                onClick={() => setShowJobs(false)}
+                                title="Close"
+                            >
+                                &times;
+                            </button>
+                            <h2 className="text-2xl font-bold text-white mb-6">All Jobs</h2>
+                            <div style={{ maxHeight: '60vh', overflowY: 'auto' }}>
+                                <AdminJobsList />
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                     {/* Application Stats */}
-                    <div className="bg-slate-900/60 backdrop-blur-lg border border-purple-500/20 rounded-xl p-6">
+                    <div
+                        className="bg-slate-900/60 backdrop-blur-lg border border-purple-500/20 rounded-xl p-6 cursor-pointer hover:border-purple-400 transition"
+                        onClick={() => setShowApplications(true)}
+                        title="Click to view all applications"
+                    >
                         <div className="flex items-center justify-between mb-4">
                             <FileText className="w-8 h-8 text-orange-400" />
                             <span className="text-3xl font-bold text-white">{stats.applications.total}</span>
                         </div>
-                        <div className="text-purple-300 font-medium">Total Applications</div>
+                        <div className="text-purple-300 font-medium underline">Total Applications</div>
                         <div className="text-xs text-gray-400 mt-1">
                             Recorded in system
                         </div>
                     </div>
+
+                {/* Modal/Section for all applications */}
+                {showApplications && (
+                    <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center">
+                        <div className="bg-slate-900 rounded-xl shadow-2xl p-8 max-w-4xl w-full relative">
+                            <button
+                                className="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl font-bold"
+                                onClick={() => setShowApplications(false)}
+                                title="Close"
+                            >
+                                &times;
+                            </button>
+                            <h2 className="text-2xl font-bold text-white mb-6">All Applications</h2>
+                            <div style={{ maxHeight: '60vh', overflowY: 'auto' }}>
+                                <AdminApplicationsList />
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                     {/* Admin Count */}
                     <div className="bg-slate-900/60 backdrop-blur-lg border border-purple-500/20 rounded-xl p-6">

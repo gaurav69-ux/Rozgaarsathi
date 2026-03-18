@@ -113,13 +113,13 @@ const Navbar = () => {
                   to="/login"
                   className="px-4 py-2 text-purple-300 hover:text-purple-200 transition-colors"
                 >
-                  {t('navbar.login')}
+                  {t('Login')}
                 </Link>
                 <Link
                   to="/register"
                   className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg transition-all"
                 >
-                  {t('navbar.register')}
+                  {t('Register')}
                 </Link>
               </>
             )}

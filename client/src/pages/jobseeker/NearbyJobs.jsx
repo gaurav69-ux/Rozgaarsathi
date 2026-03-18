@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import api from '../../utils/api';
 import Background from '../../components/common/Background';
 import Navbar from '../../components/common/Navbar';
-import JobCard from '../../components/common/jobCard';
+import JobCard from '../../components/common/JobCard';
 import { useAuth } from '../../context/authContext';
 
 const NearbyJobs = () => {
@@ -73,7 +73,8 @@ const NearbyJobs = () => {
         });
 
         if (response.data.success) {
-          setJobs(response.data.jobs);
+          // Exclude jobs removed by admin (defensive, in case API returns them)
+          setJobs(response.data.jobs.filter(j => !j.removedByAdmin));
         }
       } catch (err) {
         console.error('Failed to fetch jobs:', err);

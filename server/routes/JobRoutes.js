@@ -10,7 +10,7 @@ router.get('/:id', jobController.getJobById);
 // Protected routes - Employer only
 router.post('/', protect, authorize('employer'), jobController.createJob);
 router.put('/:id', protect, authorize('employer'), jobController.updateJob);
-router.delete('/:id', protect, authorize('employer'), jobController.deleteJob);
+router.delete('/:id', protect, authorize('employer', 'admin'), jobController.deleteJob);
 
 // Protected routes - Job Seeker only
 router.post('/:id/save', protect, authorize('jobseeker'), jobController.saveJob);
