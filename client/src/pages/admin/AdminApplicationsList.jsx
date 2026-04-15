@@ -21,32 +21,32 @@ const AdminApplicationsList = () => {
     fetchApplications();
   }, []);
 
-  if (loading) return <div className="text-purple-300">Loading applications...</div>;
-  if (error) return <div className="text-red-400">{error}</div>;
+  if (loading) return <div className="text-blue-600 font-medium">Loading applications...</div>;
+  if (error) return <div className="text-red-600 font-medium">{error}</div>;
 
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-left">
         <thead>
-          <tr className="border-b border-purple-500/20">
-            <th className="pb-3 text-purple-300 font-medium">Job Title</th>
-            <th className="pb-3 text-purple-300 font-medium">Applicant</th>
-            <th className="pb-3 text-purple-300 font-medium">Email</th>
-            <th className="pb-3 text-purple-300 font-medium">Applied On</th>
+          <tr className="border-b border-gray-100">
+            <th className="pb-3 text-gray-500 font-semibold text-sm">Job Title</th>
+            <th className="pb-3 text-gray-500 font-semibold text-sm">Applicant</th>
+            <th className="pb-3 text-gray-500 font-semibold text-sm">Email</th>
+            <th className="pb-3 text-gray-500 font-semibold text-sm">Applied On</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-purple-500/10">
+        <tbody className="divide-y divide-gray-50">
           {applications.map(app => (
-            <tr key={app._id}>
-              <td className="py-3 text-white font-medium">{app.jobTitle}</td>
-              <td className="py-3 text-gray-300">{app.applicantName}</td>
-              <td className="py-3 text-gray-300">{app.applicantEmail}</td>
-              <td className="py-3 text-gray-400">{new Date(app.createdAt).toLocaleDateString()}</td>
+            <tr key={app._id} className="hover:bg-gray-50 transition-colors">
+              <td className="py-3 text-gray-900 font-semibold">{app.jobTitle}</td>
+              <td className="py-3 text-gray-700">{app.applicantName}</td>
+              <td className="py-3 text-gray-600">{app.applicantEmail}</td>
+              <td className="py-3 text-gray-500 text-sm">{new Date(app.createdAt).toLocaleDateString()}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      {applications.length === 0 && <div className="text-gray-400 py-6">No applications found.</div>}
+      {applications.length === 0 && <div className="text-gray-500 py-6 italic text-center">No applications found.</div>}
     </div>
   );
 };

@@ -1,4 +1,5 @@
 const JobSeekerProfile = require('../models/JobSeekerProfile');
+const path = require('path');
 
 const getUploadedFilePath = (file) => file?.location || file?.path || null;
 

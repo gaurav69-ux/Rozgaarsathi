@@ -1,4 +1,5 @@
 const Application = require('../models/Application');
+const path = require('path');
 
 const getUploadedFilePath = (file) => file?.location || file?.path || null;
 const Job = require('../models/Job');

@@ -34,23 +34,23 @@ const Home = () => {
         <div className="min-h-[80vh] flex items-center justify-center text-center">
           <div className="max-w-4xl">
             <div className="mb-8 flex justify-center">
-              <div className="p-4 bg-purple-500/20 rounded-full border border-purple-500/30">
-                <Rocket className="w-16 h-16 text-purple-400" />
+              <div className="p-4 bg-blue-100 rounded-full border border-blue-200">
+                <Rocket className="w-16 h-16 text-blue-600" />
               </div>
             </div>
 
-            <h1 className="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+            <h1 className="text-6xl md:text-7xl font-bold mb-6 text-blue-600">
               {t('home.title')}
             </h1>
 
-            <p className="text-xl md:text-2xl text-purple-300 mb-12 max-w-2xl mx-auto">
+            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-2xl mx-auto">
               {t('home.subtitle')}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/login"
-                className="group px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg font-semibold transition-all text-lg flex items-center justify-center space-x-2"
+                className="group px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all text-lg flex items-center justify-center space-x-2 shadow-lg"
               >
                 <span>{t('home.getStarted')}</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -90,16 +90,16 @@ const Home = () => {
 
         {/* CTA Section */}
         <div className="py-20 mb-20">
-          <div className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 backdrop-blur-lg border border-purple-500/30 rounded-2xl p-8 text-center">
-            <h2 className="text-4xl font-bold text-white mb-4">
+          <div className="bg-blue-50 border border-blue-100 rounded-2xl p-8 text-center shadow-sm">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
               {t('home.ctaTitle')}
             </h2>
-            <p className="text-xl text-purple-300 mb-8">
+            <p className="text-xl text-gray-600 mb-8">
               {t('home.ctaSubtitle')}
             </p>
             <Link
               to="/register"
-              className="inline-block px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg font-semibold transition-all text-lg"
+              className="inline-block px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all text-lg shadow-md"
             >
               {t('home.createAccount')}
             </Link>

@@ -16,6 +16,7 @@ import AdminDashboard from './pages/admin/Dashboard';
 
 // Protected Routes
 import { PrivateRoute, PublicRoute, JobSeekerRoute, EmployerRoute, AdminRoute } from './components/ProtectedRoute';
+import Footer from './components/common/Footer';
 
 
 
@@ -91,6 +92,7 @@ function AppRoutes() {
         {/* Catch all - redirect to home */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <Footer />
     </Router>
   );
 }

@@ -3,10 +3,10 @@ const router = express.Router();
 const applicationController = require('../controllers/ApplicationController');
 const { protect, authorize } = require('../middleware/authMiddleware');
 
-const upload = require('../middleware/uploadMiddleware');
+const { upload } = require('../middleware/uploadMiddleware');
 
 // Job Seeker routes
-router.post('/', protect, authorize('jobseeker'), applicationController.applyJob);
+router.post('/', protect, authorize('jobseeker'), upload.single('resume'), applicationController.applyJob);
 router.get('/my-applications', protect, authorize('jobseeker'), applicationController.getMyApplications);
 
 // Employer routes

@@ -38,8 +38,8 @@ const Register = () => {
     <>
       <Background />
       <div className="min-h-screen flex items-center justify-center px-4 py-8">
-        <div className="bg-slate-900/90 backdrop-blur-xl p-8 rounded-2xl border border-purple-500/30 max-w-md w-full shadow-2xl">
-          <h2 className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+        <div className="bg-white p-8 rounded-2xl border border-gray-200 max-w-md w-full shadow-2xl my-8">
+          <h2 className="text-3xl font-bold text-center mb-6 text-blue-600">
             {t('register.title')}
           </h2>
 
@@ -51,27 +51,27 @@ const Register = () => {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-purple-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 {t('register.role')}
               </label>
               <select
-                className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white focus:outline-none focus:border-purple-500 transition-all"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-black focus:outline-none focus:border-blue-500 transition-all"
                 value={formData.role}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value })}
               >
-                <option value="jobseeker">👷‍♂️ {t('register.jobseeker')}</option>
-                <option value="employer">🧑‍💼 {t('register.employer')}</option>
+                <option value="jobseeker">👷‍♂️ {t('jobseeker / नौकरी ढूंढने वाला ')}</option>
+                <option value="employer">🧑‍💼 {t('employer / नौकरी देने वाला ')}</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-purple-300 mb-2">
-                {formData.role === 'employer' ? 'Employer Name' : t('register.fullName')}
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {formData.role === 'employer' ? 'Employer Name/नियोक्ता का नाम' : t('FullName/ पूरा नाम')}
               </label>
               <input
                 type="text"
-                placeholder="Enter your name"
-                className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
+                placeholder={t('register.fullName')}
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-all"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 required
@@ -80,13 +80,13 @@ const Register = () => {
 
             {formData.role === 'employer' && (
               <div>
-                <label className="block text-sm font-medium text-purple-300 mb-2">
-                  Company/Business Name
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Company/Business Name/कंपनी/व्यापार का नाम
                 </label>
                 <input
                   type="text"
                   placeholder="Enter your company name"
-                  className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-all"
                   value={formData.companyName || ''}
                   onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
                   required
@@ -95,13 +95,13 @@ const Register = () => {
             )}
 
             <div>
-              <label className="block text-sm font-medium text-purple-300 mb-2">
-                {t('register.email')}
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {t('email/ईमेल')}
               </label>
               <input
                 type="email"
-                placeholder="example@gmail.com"
-                className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
+                placeholder={t('example@gmail.com')}
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-all"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required
@@ -109,13 +109,13 @@ const Register = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-purple-300 mb-2">
-                Mobile Number
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Mobile Number/मोबाइल नं.
               </label>
               <input
                 type="tel"
                 placeholder="+91 1234567890"
-                className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-all"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 required
@@ -123,13 +123,13 @@ const Register = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-purple-300 mb-2">
-                {formData.role === 'employer' ? 'Create Password' : 'Create Password'}
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {formData.role === 'employer' ? 'Create Password / पासवर्ड बनाएं' : 'Create Password / पासवर्ड बनाएं'}
               </label>
               <input
                 type="password"
-                placeholder={t('register.passwordMinimum')}
-                className="w-full px-4 py-3 bg-slate-800/50 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
+                placeholder={t('register.password')}
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-all"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 required
@@ -140,15 +140,15 @@ const Register = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? t('register.registering') : t('register.register')}
             </button>
           </form>
 
           <div className="mt-6 text-center">
-            <span className="text-purple-300">{t('register.alreadyAccount')} </span>
-            <Link to="/login" className="text-purple-400 hover:text-purple-300 transition-colors">
+            <span className="text-gray-600">{t('register.alreadyAccount')} </span>
+            <Link to="/login" className="text-blue-600 hover:text-blue-700 transition-colors font-medium">
               {t('register.login')}
             </Link>
           </div>

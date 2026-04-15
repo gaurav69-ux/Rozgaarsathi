@@ -42,16 +42,16 @@ const JobCard = ({ job, onSaveToggle, initialSaved = false }) => {
 
   return (
     <div
-      className="bg-slate-900/60 backdrop-blur-lg border border-purple-500/20 rounded-xl p-6 hover:border-purple-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 group cursor-pointer"
+      className="bg-white border border-gray-200 rounded-xl p-6 hover:border-blue-400 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl group cursor-pointer"
       onClick={handleViewDetails}
     >
       <div className="flex justify-between items-start mb-4">
         <div className="flex-1">
-          <h3 className="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">
+          <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
             {job.title}
           </h3>
-          <div className="flex items-center space-x-2 text-purple-300 mb-2">
-            <Building className="w-4 h-4" />
+          <div className="flex items-center space-x-2 text-gray-600 mb-2">
+            <Building className="w-4 h-4 text-blue-500" />
             <span>{job.companyName || job.employerId?.name || t('jobCard.company')}</span>
           </div>
         </div>
@@ -59,7 +59,7 @@ const JobCard = ({ job, onSaveToggle, initialSaved = false }) => {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="p-2 hover:bg-purple-500/20 rounded-lg transition-all"
+            className="p-2 hover:bg-blue-50 rounded-lg transition-all"
           >
             <Heart
               className={`w-5 h-5 ${isSaved ? 'fill-pink-500 text-pink-500' : 'text-gray-400'} ${saving ? 'opacity-50' : ''}`}
@@ -70,33 +70,33 @@ const JobCard = ({ job, onSaveToggle, initialSaved = false }) => {
 
       <div className="space-y-2 mb-4">
         {job.location && (
-          <div className="flex items-center text-gray-300 text-sm">
-            <MapPin className="w-4 h-4 mr-2 text-purple-400" />
+          <div className="flex items-center text-gray-600 text-sm">
+            <MapPin className="w-4 h-4 mr-2 text-blue-500" />
             {job.location}
           </div>
         )}
         {job.salary?.min && job.salary?.max && (
-          <div className="flex items-center text-gray-300 text-sm">
-            <IndianRupee className="w-4 h-4 mr-2 text-purple-400" />
+          <div className="flex items-center text-gray-600 text-sm">
+            <IndianRupee className="w-4 h-4 mr-2 text-blue-500" />
             {job.salary.min.toLocaleString()} - {job.salary.max.toLocaleString()}
           </div>
         )}
-        <div className="flex items-center text-gray-300 text-sm">
-          <Clock className="w-4 h-4 mr-2 text-purple-400" />
+        <div className="flex items-center text-gray-600 text-sm">
+          <Clock className="w-4 h-4 mr-2 text-blue-500" />
           {job.jobType}
         </div>
       </div>
 
       {job.category && (
         <div className="mb-4">
-          <span className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs border border-purple-500/30">
+          <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs border border-blue-100 font-medium">
             {job.category}
           </span>
         </div>
       )}
 
       <button
-        className="w-full py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg font-semibold transition-all flex items-center justify-center space-x-2"
+        className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all flex items-center justify-center space-x-2 shadow-sm"
         onClick={handleViewDetails}
       >
         <span>{t('jobCard.viewDetails')}</span>

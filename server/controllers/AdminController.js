@@ -79,3 +79,46 @@ exports.getDashboardStats = async (req, res) => {
         res.status(500).json({ message: 'Server error fetching admin stats', error: error.message });
     }
 };
+
+// @desc    Get all users
+// @route   GET /api/admin/users
+// @access  Private/Admin
+exports.getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find()
+            .select('-password')
+            .sort({ createdAt: -1 });
+
+        res.json({ success: true, users });
+    } catch (error) {
+        console.error('Admin get all users error:', error);
+        res.status(500).json({ message: 'Server error fetching users', error: error.message });
+    }
+};
+
+// @desc    Delete a user
+// @route   DELETE /api/admin/users/:id
+// @access  Private/Admin
+exports.deleteUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Prevent admin from deleting themselves
+        if (user._id.toString() === req.user._id.toString()) {
+            return res.status(400).json({ message: 'Admin cannot delete themselves' });
+        }
+
+        // Optional: Perform cleanup of related data (jobs, applications, etc.)
+        // For now, just delete the user
+        await User.findByIdAndDelete(req.params.id);
+
+        res.json({ success: true, message: 'User deleted successfully' });
+    } catch (error) {
+        console.error('Admin delete user error:', error);
+        res.status(500).json({ message: 'Server error deleting user', error: error.message });
+    }
+};

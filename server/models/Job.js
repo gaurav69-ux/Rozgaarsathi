@@ -43,6 +43,10 @@ const jobSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
+  address: {
+    type: String,
+    trim: true
+  },
   experienceLevel: {
     type: String,
     trim: true

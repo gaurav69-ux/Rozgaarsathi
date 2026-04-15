@@ -3,7 +3,7 @@ const router = express.Router();
 const employerController = require('../controllers/EmployerController');
 const { protect, authorize } = require('../middleware/authMiddleware');
 
-const upload = require('../middleware/uploadMiddleware');
+const { upload } = require('../middleware/uploadMiddleware');
 
 // All routes are protected and for employers only
 router.get('/profile', protect, authorize('employer'), employerController.getProfile);

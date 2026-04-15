@@ -10,4 +10,8 @@ router.get('/stats', protect, authorize('admin'), adminController.getDashboardSt
 // All applications (for admin)
 router.get('/applications', protect, authorize('admin'), adminController.getAllApplications);
 
+// User management
+router.get('/users', protect, authorize('admin'), adminController.getAllUsers);
+router.delete('/users/:id', protect, authorize('admin'), adminController.deleteUser);
+
 module.exports = router;

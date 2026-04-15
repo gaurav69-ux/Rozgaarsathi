@@ -113,17 +113,17 @@ export default function EmployerProfile() {
         <Background />
         <Navbar />
         <div className="min-h-screen flex items-center justify-center">
-          <p className="text-purple-300">{t('messages.loading')}</p>
+          <p className="text-blue-600">{t('messages.loading')}</p>
         </div>
       </>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-white">
       <Navbar />
       <div className="container mx-auto px-4 py-8 max-w-3xl">
-        <div className="bg-slate-800 rounded-lg shadow-lg p-8">
+        <div className="bg-white border border-gray-200 rounded-lg shadow-xl p-8">
           <div className="flex items-center space-x-6 mb-6">
             <div>
               <img
@@ -133,87 +133,87 @@ export default function EmployerProfile() {
               />
             </div>
             <div className="flex-1">
-              <h2 className="text-2xl font-bold text-white">{profile.companyName || t('profile.companyName')}</h2>
-              <p className="text-sm text-purple-300">{profile.industry || ''}</p>
+              <h2 className="text-2xl font-bold text-gray-900">{profile.companyName || t('profile.companyName')}</h2>
+              <p className="text-sm text-blue-600 font-medium">{profile.industry || ''}</p>
               {!isEditing && (
-                <button onClick={() => setIsEditing(true)} className="mt-3 px-4 py-2 bg-blue-500 text-white rounded-lg">{t('profile.editProfile')}</button>
+                <button onClick={() => setIsEditing(true)} className="mt-3 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-sm">{t('profile.editProfile')}</button>
               )}
             </div>
           </div>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-2">Employer Name</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Employer Name</label>
               {isEditing ? (
-                <input name="name" value={profile.name || ''} onChange={handleInputChange} className="w-full px-4 py-2 bg-slate-700 border border-gray-600 rounded-lg text-white" />
+                <input name="name" value={profile.name || ''} onChange={handleInputChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-black focus:outline-none focus:border-blue-500 transition-all" />
               ) : (
-                <p className="text-white">{profile.name || t('jobDetails.notSpecified')}</p>
+                <p className="text-gray-900">{profile.name || t('jobDetails.notSpecified')}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-2">Mobile Number</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Mobile Number</label>
               {isEditing ? (
-                <input name="phone" value={profile.phone || ''} onChange={handleInputChange} className="w-full px-4 py-2 bg-slate-700 border border-gray-600 rounded-lg text-white" />
+                <input name="phone" value={profile.phone || ''} onChange={handleInputChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-black focus:outline-none focus:border-blue-500 transition-all" />
               ) : (
-                <p className="text-white">{profile.phone || t('jobDetails.notSpecified')}</p>
+                <p className="text-gray-900">{profile.phone || t('jobDetails.notSpecified')}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-2">{t('profile.companyName')}</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">{t('profile.companyName')}</label>
               {isEditing ? (
-                <input name="companyName" value={profile.companyName || ''} onChange={handleInputChange} className="w-full px-4 py-2 bg-slate-700 border border-gray-600 rounded-lg text-white" />
+                <input name="companyName" value={profile.companyName || ''} onChange={handleInputChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-black focus:outline-none focus:border-blue-500 transition-all" />
               ) : (
-                <p className="text-white">{profile.companyName || t('jobDetails.notSpecified')}</p>
+                <p className="text-gray-900">{profile.companyName || t('jobDetails.notSpecified')}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-2">{t('profile.website')}</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">{t('profile.website')}</label>
               {isEditing ? (
-                <input name="website" value={profile.website || ''} onChange={handleInputChange} className="w-full px-4 py-2 bg-slate-700 border border-gray-600 rounded-lg text-white" />
+                <input name="website" value={profile.website || ''} onChange={handleInputChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-black focus:outline-none focus:border-blue-500 transition-all" />
               ) : (
-                <p className="text-white">{profile.website || t('jobDetails.notSpecified')}</p>
+                <p className="text-gray-900">{profile.website || t('jobDetails.notSpecified')}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-2">{t('profile.location')}</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">{t('profile.location')}</label>
               {isEditing ? (
-                <input name="location" value={profile.location || ''} onChange={handleInputChange} className="w-full px-4 py-2 bg-slate-700 border border-gray-600 rounded-lg text-white" />
+                <input name="location" value={profile.location || ''} onChange={handleInputChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-black focus:outline-none focus:border-blue-500 transition-all" />
               ) : (
-                <p className="text-white">{profile.location || t('jobDetails.notSpecified')}</p>
+                <p className="text-gray-900">{profile.location || t('jobDetails.notSpecified')}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-2">{t('profile.industry')}</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">{t('profile.industry')}</label>
               {isEditing ? (
-                <input name="industry" value={profile.industry || ''} onChange={handleInputChange} className="w-full px-4 py-2 bg-slate-700 border border-gray-600 rounded-lg text-white" />
+                <input name="industry" value={profile.industry || ''} onChange={handleInputChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-black focus:outline-none focus:border-blue-500 transition-all" />
               ) : (
-                <p className="text-white">{profile.industry || t('jobDetails.notSpecified')}</p>
+                <p className="text-gray-900">{profile.industry || t('jobDetails.notSpecified')}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-2">{t('profile.bio')}</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">{t('profile.bio')}</label>
               {isEditing ? (
-                <textarea name="description" value={profile.description || ''} onChange={handleInputChange} rows={5} className="w-full px-4 py-2 bg-slate-700 border border-gray-600 rounded-lg text-white" />
+                <textarea name="description" value={profile.description || ''} onChange={handleInputChange} rows={5} className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-black focus:outline-none focus:border-blue-500 transition-all" />
               ) : (
-                <p className="text-white whitespace-pre-line">{profile.description || t('jobDetails.notSpecified')}</p>
+                <p className="text-gray-900 whitespace-pre-line leading-relaxed">{profile.description || t('jobDetails.notSpecified')}</p>
               )}
             </div>
 
             {isEditing && (
               <div className="flex items-center space-x-4 mt-6">
-                <label className="px-4 py-2 bg-slate-700 rounded-lg cursor-pointer">
+                <label className="px-4 py-2 bg-gray-100 text-gray-700 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors">
                   <input type="file" accept="image/*" onChange={handleLogoChange} className="hidden" />
                   {t('profile.uploadLogo')}
                 </label>
 
-                <button onClick={handleSaveProfile} className="px-6 py-2 bg-green-500 text-white rounded-lg">{t('profile.updateProfile')}</button>
-                <button onClick={() => { setIsEditing(false); setLogoFile(null); setPreviewLogo(null); }} className="px-6 py-2 bg-gray-500 text-white rounded-lg">{t('jobDetails.back')}</button>
+                <button onClick={handleSaveProfile} className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors shadow-sm">{t('profile.updateProfile')}</button>
+                <button onClick={() => { setIsEditing(false); setLogoFile(null); setPreviewLogo(null); }} className="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors shadow-sm">{t('jobDetails.back')}</button>
               </div>
             )}
           </div>
