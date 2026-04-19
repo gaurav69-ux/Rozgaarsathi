@@ -18,7 +18,7 @@ jobs:
 
       # Backend
       - name: Build Backend
-        run: docker build -t gauravd7/rozgaarsathi-backend ./backend
+        run: docker build -t gauravd7/rozgaarsathi-backend ./server
 
       - name: Push Backend
         run: docker push gauravd7/rozgaarsathi-backend:latest
@@ -28,7 +28,7 @@ jobs:
         run: |
           docker build -t gauravd7/rozgaarsathi-frontend \
           --build-arg REACT_APP_SERVER_BASE_URL=/api \
-          ./frontend
+          ./client
 
       - name: Push Frontend
         run: docker push gauravd7/rozgaarsathi-frontend:latest
