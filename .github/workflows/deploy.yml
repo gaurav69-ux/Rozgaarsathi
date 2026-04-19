@@ -1,0 +1,51 @@
+name: Deploy RozgaarSathi
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Docker Login
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      # Backend
+      - name: Build Backend
+        run: docker build -t gauravd7/rozgaarsathi-backend ./backend
+
+      - name: Push Backend
+        run: docker push gauravd7/rozgaarsathi-backend:latest
+
+      # Frontend
+      - name: Build Frontend
+        run: |
+          docker build -t gauravd7/rozgaarsathi-frontend \
+          --build-arg REACT_APP_SERVER_BASE_URL=/api \
+          ./frontend
+
+      - name: Push Frontend
+        run: docker push gauravd7/rozgaarsathi-frontend:latest
+
+
+  deploy:
+    needs: build-and-push
+    runs-on: self-hosted
+
+    steps:
+      - name: Pull Latest Images
+        run: |
+          docker pull gauravd7/rozgaarsathi-backend:latest
+          docker pull gauravd7/rozgaarsathi-frontend:latest
+
+      - name: Restart App
+        run: |
+          cd /home/ubuntu/rozgaarsathi
+          docker-compose down
+          docker-compose up -d
