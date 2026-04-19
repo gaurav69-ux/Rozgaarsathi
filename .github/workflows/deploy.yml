@@ -92,6 +92,20 @@ jobs:
             EOL
 
             echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u "${{ github.repository_owner }}" --password-stdin
-            docker compose --env-file .env -f docker-compose.ec2.yml pull
-            docker compose --env-file .env -f docker-compose.ec2.yml up -d --remove-orphans
+
+            if docker compose version >/dev/null 2>&1; then
+              COMPOSE_CMD="docker compose"
+            elif docker-compose version >/dev/null 2>&1; then
+              COMPOSE_CMD="docker-compose"
+            else
+              echo "Neither 'docker compose' nor 'docker-compose' is installed on EC2."
+              exit 1
+            fi
+
+            set -a
+            . ./.env
+            set +a
+
+            $COMPOSE_CMD -f docker-compose.ec2.yml pull
+            $COMPOSE_CMD -f docker-compose.ec2.yml up -d --remove-orphans
             docker image prune -f
