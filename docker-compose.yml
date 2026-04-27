@@ -1,0 +1,39 @@
+services:
+  server:
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/rozgaarsathi-server:${IMAGE_TAG:-latest}
+    container_name: rozgaarsathi-server
+    restart: unless-stopped
+    environment:
+      MONGO_URI: ${MONGO_URI}
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "3000:3000"
+    networks:
+      - rozgaarsathi-network
+
+  client:
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/rozgaarsathi-client:${IMAGE_TAG:-latest}
+    container_name: rozgaarsathi-client
+    restart: unless-stopped
+    depends_on:
+      - server
+    networks:
+      - rozgaarsathi-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: rozgaarsathi-nginx
+    restart: unless-stopped
+    depends_on:
+      - client
+      - server
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - rozgaarsathi-network
+
+networks:
+  rozgaarsathi-network:
+    driver: bridge
