@@ -27,13 +27,9 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro  # ← was ./default.conf
     depends_on:
       - client
       - server
     networks:
       - rozgaarsathi-network
-
-networks:
-  rozgaarsathi-network:
-    driver: bridge
