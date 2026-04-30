@@ -1,35 +1,24 @@
 services:
-  server:
-    image: ${DOCKERHUB_USERNAME}/rozgaarsathi-server:${IMAGE_TAG:-latest}
-    container_name: rozgaarsathi-server
-    restart: always
-    environment:
-      MONGO_URI: ${MONGO_URI}
-      JWT_SECRET: ${JWT_SECRET}
-    ports:
-      - "3000:3000"
-    networks:
-      - rozgaarsathi-network
-
   client:
-    image: ${DOCKERHUB_USERNAME}/rozgaarsathi-client:${IMAGE_TAG:-latest}
-    container_name: rozgaarsathi-client
-    restart: always
-    depends_on:
-      - server
-    networks:
-      - rozgaarsathi-network
-
-  nginx:
-    image: nginx:alpine
-    container_name: rozgaarsathi-nginx
-    restart: always
+    build: ./client
     ports:
       - "80:80"
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro  # ← was ./default.conf
     depends_on:
-      - client
       - server
     networks:
-      - rozgaarsathi-network
+      - app-network
+
+  server:
+    build: ./server
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./server/.env
+    environment:
+      # Overriding variables from .env to work inside Docker network
+      - CLIENT_URL=http://localhost
+    networks:
+      - app-network
+
+networks:
+  app-network:
