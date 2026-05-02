@@ -109,7 +109,9 @@ exports.updateProfile = async (req, res) => {
 
     // Handle resume file upload
     if (req.file) {
-      updateData.resume = getUploadedFilePath(req.file);
+      const { uploadToS3 } = require('../middleware/uploadMiddleware');
+      const s3Url = await uploadToS3(req.file.buffer, `${req.user.id}-resume${path.extname(req.file.originalname)}`, req.file.mimetype, 'resumes');
+      updateData.resume = s3Url;
     }
 
     const profile = await JobSeekerProfile.findOneAndUpdate(

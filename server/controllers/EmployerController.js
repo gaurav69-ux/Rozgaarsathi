@@ -1,5 +1,6 @@
 const EmployerProfile = require('../models/EmployerProfile');
-
+const { uploadToS3 } = require('../middleware/uploadMiddleware');
+const path = require('path');
 const getUploadedFilePath = (file) => file?.location || file?.path || null;
 const Job = require('../models/Job');
 const Application = require('../models/Application');
@@ -52,7 +53,8 @@ exports.updateProfile = async (req, res) => {
 
     // Handle company logo upload
     if (req.file) {
-      updateData.companyLogo = getUploadedFilePath(req.file);
+      const s3Url = await uploadToS3(req.file.buffer, `${req.user.id}-companyLogo${path.extname(req.file.originalname)}`, req.file.mimetype, 'company-logos');
+      updateData.companyLogo = s3Url;
     }
 
     const profile = await EmployerProfile.findOneAndUpdate(
