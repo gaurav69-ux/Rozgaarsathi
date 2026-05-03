@@ -1,6 +1,6 @@
 services:
   client:
-    image: ${DOCKERHUB_USERNAME:-yourdockerhubusername}/rozgaarsathi-client:latest
+    image: gauravd7/rozgaarsathi-client:latest
     build: ./client
     ports:
       - "80:80"
@@ -10,7 +10,7 @@ services:
       - app-network
 
   server:
-    image: ${DOCKERHUB_USERNAME:-yourdockerhubusername}/rozgaarsathi-server:latest
+    image: gauravd7/rozgaarsathi-server:latest
     build: ./server
     ports:
       - "3000:3000"
