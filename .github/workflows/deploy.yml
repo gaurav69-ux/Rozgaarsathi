@@ -1,0 +1,73 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - feature
+      - 'feature/*' # Covers branches like feature/login, feature/update-profile
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Only log in to Docker Hub if we are on the main branch
+      - name: Log in to Docker Hub
+        if: github.ref == 'refs/heads/main'
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Build image for all branches to ensure no build errors, but ONLY push if on main
+      - name: Build Client Image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./client
+          push: ${{ github.ref == 'refs/heads/main' }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/rozgaarsathi-client:latest
+
+      # Build image for all branches to ensure no build errors, but ONLY push if on main
+      - name: Build Server Image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./server
+          push: ${{ github.ref == 'refs/heads/main' }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/rozgaarsathi-server:latest
+
+  deploy:
+    needs: build-and-test
+    # This step is the safeguard: ONLY run the deployment if the code is pushed/merged to the main branch
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to EC2 using SSH
+        uses: appleboy/ssh-action@v1.0.0
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          envs: DOCKERHUB_USERNAME
+          script: |
+            # Update to your actual path on the EC2 instance where docker-compose.yml resides
+            cd ~/Rozgaarsathi
+            
+            # Pull any new repository changes (e.g. docker-compose.yml updates)
+            git pull origin main
+            
+            # Export the dockerhub username for docker-compose interpolation
+            export DOCKERHUB_USERNAME=$DOCKERHUB_USERNAME
+            
+            # Pull the newly built images from Docker Hub
+            docker-compose pull
+            
+            # Restart the services in detached mode
+            docker-compose up -d
