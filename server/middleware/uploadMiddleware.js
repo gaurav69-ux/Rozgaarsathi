@@ -9,10 +9,17 @@ const s3 = new S3Client({
 
 // File filter - only allow specific file types
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = /pdf|doc|docx|jpeg|jpg|png/;
-  const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = allowedTypes.test(file.mimetype);
-  if (extname && mimetype) {
+  const allowedExts = /pdf|doc|docx|jpeg|jpg|png|webp|gif|heic/;
+  const isAllowedExt = allowedExts.test(path.extname(file.originalname).toLowerCase());
+  
+  const allowedMimeTypes = [
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  ];
+  const isAllowedMime = file.mimetype.startsWith('image/') || allowedMimeTypes.includes(file.mimetype);
+
+  if (isAllowedExt && isAllowedMime) {
     cb(null, true);
   } else {
     cb(new Error('Only PDF, DOC, DOCX, and image files are allowed'));

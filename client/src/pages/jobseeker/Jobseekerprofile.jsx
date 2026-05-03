@@ -177,7 +177,7 @@ export default function JobSeekerProfile() {
                   <label className="absolute bottom-0 right-0 bg-blue-500 p-2 rounded-full cursor-pointer hover:bg-blue-600">
                     <input
                       type="file"
-                      accept="image/*"
+                      accept="image/*, image/webp, .webp"
                       onChange={handlePhotoChange}
                       className="hidden"
                     />

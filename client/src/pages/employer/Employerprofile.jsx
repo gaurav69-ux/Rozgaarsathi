@@ -208,7 +208,7 @@ export default function EmployerProfile() {
             {isEditing && (
               <div className="flex items-center space-x-4 mt-6">
                 <label className="px-4 py-2 bg-gray-100 text-gray-700 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors">
-                  <input type="file" accept="image/*" onChange={handleLogoChange} className="hidden" />
+                  <input type="file" accept="image/*, image/webp, .webp" onChange={handleLogoChange} className="hidden" />
                   {t('profile.uploadLogo')}
                 </label>
 
