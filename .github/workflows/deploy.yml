@@ -61,13 +61,13 @@ jobs:
             cd ~/Rozgaarsathi
             
             # Pull any new repository changes (e.g. docker-compose.yml updates)
-            git pull origin main
+            sudo git pull origin main
             
             # Export the dockerhub username for docker-compose interpolation
-            export DOCKERHUB_USERNAME=$DOCKERHUB_USERNAME
+            sudo export DOCKERHUB_USERNAME=$DOCKERHUB_USERNAME
             
             # Pull the newly built images from Docker Hub
-            docker compose pull
+            sudo docker compose pull
             
             # Restart the services in detached mode
-            docker compose up -d --build
+            sudo docker compose up -d --build
